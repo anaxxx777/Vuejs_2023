@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>Vue.js 演習問題</title>
+        <link rel="stylesheet" href="style.css" />
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
+    </head>
+
+    <body>
+        <h2>インラインスタイルを指定する例</h2>
+        <div id="app">
+            <ol>
+                フロントエンドフレームワークシェア順位
+                <li :style="{color: fColor[0], fontSize: fSize[0]}">React.js</li>
+                <li :style="{color: fColor[1], fontSize: fSize[1]}">Vue.js</li>
+                <li :style="{color: fColor[2], fontSize: fSize[2]}">Angular.js</li>
+            </ol>
+        </div>
+
+        <script>
+            new Vue({
+                el: "#app",
+                data: {
+                    fColor: ['red', 'blue', 'green'],
+                    fSize: ['200%', '150%', '100%'],
+                },
+            });
+        </script>
+    </body>
+</html>
