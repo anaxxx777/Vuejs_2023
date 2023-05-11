@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>Vue.js 演習問題</title>
+        <link rel="stylesheet" href="style.css" />
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
+    </head>
+
+    <body>
+        <h2>入力した数値のたし算</h2>
+        <div id="app">
+            <a>数値１ = <input v-model.number="num1" type="number"></a>
+            <br>
+            <a>数値２ = <input v-model.number="num2" type="number"></a>
+            <p>たし算：{{ num1 }} + {{ num2 }} = {{ num1 + num2 }}</p>
+        </div>
+
+        <!--
+            ・<label>ラベルタグは、<input>や<textarea>などの入力欄に対してキャプション（説明）をつけるために使います。
+                おもに「何を入力する欄なのか」が分かるように、テキストや画像を入れます。
+            ・parseInt(xxx)でも、文字列⇒数値変換可能
+
+            <div id="app">
+			<label>数値１ = <input type="number" v-model="number1"></label>
+			<br>
+			<label>数値２ = <input type="number" v-model="number2"></label>
+			<p>たし算：
+            {{ number1 }} + {{ number2 }} 
+            = {{ parseInt(number1) + parseInt(number2) }}
+            </p>
+        -->
+
+        <script>
+            new Vue({
+                el: '#app',
+                data: {
+                    num1: '',
+                    num2: '',
+                }
+            });
+        </script>
+    </body>
+</html>
