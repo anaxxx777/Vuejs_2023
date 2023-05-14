@@ -30,6 +30,13 @@
                     <th>性別</th>
                     <td>
                         <label v-for="ge in genderList"><input type="radio" :value="ge" v-model="gender">{{ ge }}</label>
+                        <!--
+                        <label v-for="ge in genderList"><input type="radio" value="ge" v-model="gender">{{ ge }}</label>
+                        「value="ge"」とするとvalueに文字列「ge」が入る
+                        ⇒forで出力したラジオボタン全てのvalueが文字列「ge」になり誤った挙動になる
+                        「:value="ge"」の場合はforで取り出された変数「ge」にバインドするので
+                        繰り返しの度に配列内の要素がvalueになる
+                        -->
                     </td>
                 </tr>
                 <tr>
