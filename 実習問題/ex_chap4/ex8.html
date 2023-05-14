@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>Vue.js 演習問題</title>
+        <link rel="stylesheet" href="style.css" />
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
+    </head>
+
+    <body>
+        <h2>選択したラジオボタンを表示する例</h2>
+        <div id="app">
+            <table border="1">
+                <caption>
+                    希望学科登録
+                </caption>
+                <tr>
+                    <th>氏名</th>
+                    <td>
+                        <input v-model="name">
+                    </td>
+                </tr>
+                <tr>
+                    <th>年齢</th>
+                    <td>
+                        <input v-model="age" type="number">
+                    </td>
+                </tr>
+                <tr>
+                    <th>性別</th>
+                    <td>
+                        <label v-for="ge in genderList"><input type="radio" :value="ge" v-model="gender">{{ ge }}</label>
+                    </td>
+                </tr>
+                <tr>
+                    <th>希望コース</th>
+                    <td>
+                        <select v-model="cource">
+                            <option value="">希望学科を入力してください</option>
+                            <option v-for="(value, key) in courceList">{{ value }}</option>
+                    </td>
+                </tr>
+            </table>
+            <hr />
+            <table>
+                <caption>
+                    入力された情報
+                </caption>
+                <tr>
+                    <th>氏名</th>
+                    <td>{{ name }}</td>
+                </tr>
+                <tr>
+                    <th>年齢</th>
+                    <td>{{ age }}</td>
+                </tr>
+                <tr>
+                    <th>性別</th>
+                    <td>{{ gender }}</td>
+                </tr>
+                <tr>
+                    <th>希望コース</th>
+                    <td>{{ cource }}</td>
+                </tr>
+            </table>
+        </div>
+
+        <script>
+            new Vue({
+                el: '#app',
+                data: {
+                    name: '',
+                    age: '',
+                    gender: '',
+                    genderList: ['男性','女性','未回答'],
+                    cource: '',
+                    courceList: {'AI':'AIエンジニアコース','SE':'システムエンジニア','NWSC':'ネットワークセキュリティコース','INFR':'インフラエンジニアコース'},
+                }
+            });
+        </script>
+    </body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>Vue.js 演習問題</title>
+        <link rel="stylesheet" href="style.css" />
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
+    </head>
+
+    <body>
+        <h2>入力した文章の検索</h2>
+        <div id="app">
+            文章入力
+            <br>
+            <textarea v-model="myText"></textarea>
+            <br>
+            <label for="">検索文字列 = </label>
+            <input @keyup.enter="anai" v-model="searchText">
+            <hr>
+            <p>文章は、「{{ myText }}」</p>
+            <p>検索文字列は、{{ searchText }}</p>
+            <p>文章の {{ ans }} 文字目にあります。</p>
+            <!-- こっちもいける {{ myText.indexOf(searchText)+1 }} -->
+        </div>
+
+        <script>
+            new Vue({
+                el: '#app',
+                data: {
+                    myText: '',
+                    searchText: '',
+                    ans: '',
+                },
+                methods: {
+                    anai: function() {
+                        this.ans = this.myText.indexOf(this.searchText) + 1;
+                    }
+                }
+            });
+        </script>
+    </body>
+</html>
