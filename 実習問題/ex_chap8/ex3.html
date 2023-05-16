@@ -19,7 +19,7 @@
             <input type="number" v-model="tax">
             %
             <p>
-                消費税込み価格は {{total}}円です。
+                消費税込み価格は {{ total }}円です。
             </p>
         </div>
 
@@ -33,8 +33,9 @@
                 },
                 computed: {
                     total: function() {
+                        // 解答例 ⇒ return Math.floor(this.price * this.quantity * (1 + this.tax / 100));
                         let a = this.num1 * this.num2;
-                        return a + (a*(this.tax/100))
+                        return a + ( a * (this.tax / 100 ))
                     }
                 }
             });
