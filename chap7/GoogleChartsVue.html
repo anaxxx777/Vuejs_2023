@@ -55,6 +55,7 @@
 						let obj = this.dataArray[val];
 						obj[1]++;
 						this.dataArray.splice(val, 1, obj);
+						// 開始位置:val, 削除する要素数:1, 追加する要素:obj(インクリメント後)
 						drawBasic();
 					}
 				}
