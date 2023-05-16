@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>Vue.js 演習問題</title>
+        <link rel="stylesheet" href="style.css" />
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
+    </head>
+
+    <body>
+        <h2>クリックしたら、四則演算する例</h2>
+        <div id="app">
+            <p>
+                数１ = <input v-model.number="number1" /><br />
+                数２ = <input v-model.number="number2" />
+            </p>
+
+            <button @click="addNum">たし算</button>
+            <button @click="subNum">引き算</button>
+            <button @click="mulNum">かけ算</button>
+            <button @click="divNum">わり算</button>
+            <button @click="remNum">あまり</button>
+            <br>
+            <hr />
+            <h3>計算結果</h3>
+            <p>{{ number1 }} {{ operator }} {{ number2 }} = {{ answer }}</p>
+        </div>
+
+        <script>
+            new Vue({
+                el: "#app",
+                data: {
+                    number1: 0,
+                    number2: 0,
+                    answer: 0,
+                    operator: "",
+                    operations: {'たし算':'+','ひき算':'-','かけ算':'*','わり算':'/','あまり':'%'},
+                },
+                methods: {
+                    addNum: function() {
+                        this.operator = '+';
+                        this.answer = parseInt(this.number1) + parseInt(this.number2);
+                    },
+                    subNum: function() {
+                        this.operator = '-';
+                        this.answer = this.number1 - this.number2;
+                    },
+                    mulNum: function() {
+                        this.operator = '*';
+                        this.answer = this.number1 * this.number2;
+                    },
+                    divNum: function() {
+                        this.operator = '/';
+                        this.answer = this.number1 / this.number2;
+                    },
+                    remNum: function() {
+                        this.operator = '%';
+                        this.answer = this.number1 % this.number2;
+                    },
+                    calc: function(number1,number2){
+                        switch(this.operator) {
+                            case '+':
+                                this.addNum();
+                                break;
+                            case '-':
+                                this.subNum();
+                                break;
+                            case '*':
+                                this.mulNum();
+                                break;
+                            case '/':
+                                this.divNum();
+                                break;
+                            case '%':
+                                this.remNum();
+                                break;
+                        }
+                    }
+                }
+            });
+        </script>
+    </body>
+</html>
