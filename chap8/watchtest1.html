@@ -27,8 +27,10 @@
 						let pos = this.inputText.indexOf(this.forbiddenText);
 						if (pos >= 0) {
 							alert(this.forbiddenText + "は、入力できません。");
-							// 入力文字列から禁止文字を削除する
-							this.inputText = this.inputText.substr(0,pos);
+							// 入力文字列から禁止文字を削除する(禁止文字の開始位置pos以降の文字を無視してinputTextを上書き)
+							this.inputText = this.inputText.substr(0,pos); // substr(開始位置,文字数)
+							// ↓↓ forbiddenTextだけ削除
+							// this.inputText = this.inputText.substr(0,pos) + this.inputText.substr(pos + this.forbiddenText.length);
 						}
 					}
 				}
