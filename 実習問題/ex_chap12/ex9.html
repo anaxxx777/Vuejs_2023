@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>vue.js 演習問題</title>
+
+        <link rel="stylesheet" href="style.css" />
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
+    </head>
+
+    <body>
+        <h2>オブジェクトのリストからコンポーネントを作って表示する例</h2>
+        <div id="app">
+            <fruits-data v-for="item in fruitsList" :name1="item.name" :name2="item.price"></fruits-data>
+        </div>
+
+        <script>
+            var fruitsData = {
+                template: '<p class="my-comp">商品名：{{name1}} 定価：{{name2}} 円 税込み価格：{{anai}} 円</p>',
+                props: ['name1','name2'],
+                // ↓↓ propsの変数名でアクセス!!(コンポーネント内の変数) dataにはアクセスしていない
+                computed: {
+                    anai: function() {
+                        return Math.floor(this.name2 * 1.1)
+                    }
+                }
+            }
+
+            new Vue({
+                el: "#app",
+                data:{
+                    fruitsList: [
+                        {name: 'りんご', price: 120},
+                        {name: 'みかん', price: 100},
+                        {name: 'もも', price: 180},
+                        {name: 'バナナ', price: 150},
+                        {name: 'いちご', price: 250},
+                    ]
+                },
+                components: {
+                    'fruits-data': fruitsData
+                }
+            })
+        </script>
+
+        <style>
+            .my-comp {
+                width: 300px;
+                background-color: #ffffe0;
+                border: solid;
+                border-color: darkorange;
+                border-radius: 8px;
+                padding: 8px;
+            }
+        </style>
+    </body>
+</html>
