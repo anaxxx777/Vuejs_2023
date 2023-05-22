@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>vue.js 演習問題</title>
+
+        <link rel="stylesheet" href="style.css" />
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
+    </head>
+
+    <body>
+        <h2>それぞれ別々にカウントするコンポーネントの例</h2>
+        <div id="app">
+            <button v-model="changeComp" @click="changeFunc">切替</button>
+            <p v-if="changeComp">
+                <my-component></my-component>
+                <my-component></my-component>
+                <my-component></my-component>
+            </p>
+            <p v-else="changeComp">
+                <fruits-data v-for="item in fruitsList" :name1="item.name" :name2="item.price"></fruits-data>
+            </p>
+            
+        </div>
+
+        
+        <script>
+            let MyComponent = {
+                template: '<p class="my-comp">カウンター　<button @click="addOne">追加</button> <button @click="subOne">減少</button> <button @click="addTen">10追加</button> {{count}}</p>',
+                data: function () {
+                return {
+                    count: 0
+                }
+                },
+                methods: {
+                    addOne: function() {
+                        return this.count ++;
+                    },
+                    subOne: function() {
+                        return this.count --;
+                    },
+                    addTen: function() {
+                        return this.count += 10;
+                    }
+                },
+            }
+            let fruitsData = {
+                template: '<p class="my-comp">商品名：{{name1}} 定価：{{name2}} 円 税込み価格：{{anai}} 円</p>',
+                props: ['name1','name2'],
+                // ↓↓ propsの変数名でアクセス!!(コンポーネント内の変数) dataにはアクセスしていない
+                computed: {
+                    anai: function() {
+                        return Math.floor(this.name2 * 1.1)
+                    }
+                }
+            }
+            new Vue({
+                el: '#app',
+                components: {
+                    'my-component': MyComponent,
+                    'fruits-data': fruitsData
+                },
+                data:{
+                    fruitsList: [
+                        {name: 'りんご', price: 120},
+                        {name: 'みかん', price: 100},
+                        {name: 'もも', price: 180},
+                        {name: 'バナナ', price: 150},
+                        {name: 'いちご', price: 250},
+                    ],
+                    changeComp: true
+                },
+                methods: {
+                    changeFunc: function() {
+                        if (this.changeComp){
+                            this.changeComp = false;
+                        } else {
+                            this.changeComp = true;
+                        }
+                    }
+                }
+            })
+        </script>
+
+        <style>
+            .my-comp {
+                width: 400px;
+                background-color: #ffffe0;
+                border: solid;
+                border-color: darkorange;
+                border-radius: 8px;
+                padding: 8px;
+            }
+        </style>
+    </body>
+</html>
