@@ -11,15 +11,22 @@
     <body>
         <h2>それぞれ別々にカウントするコンポーネントの例</h2>
         <div id="app">
-            <button v-model="changeComp" @click="changeFunc">切替</button>
-            <p v-if="changeComp">
+            <p v-if="flag">
+                <button v-model="countComp" @click="changeFunc(1)">カウント</button>
+                <button v-model="fruitsComp" @click="changeFunc(2)">フルーツ</button>
+            </p>
+            <p v-else>
+                <button v-model="flag" @click="changeFunc(0)">戻る</button>
+            </p>
+            <p v-if="countComp">
                 <my-component></my-component>
                 <my-component></my-component>
                 <my-component></my-component>
             </p>
-            <p v-else="changeComp">
+            <p v-if="fruitsComp">
                 <fruits-data v-for="item in fruitsList" :name1="item.name" :name2="item.price"></fruits-data>
             </p>
+            
             
         </div>
 
@@ -68,14 +75,26 @@
                         {name: 'バナナ', price: 150},
                         {name: 'いちご', price: 250},
                     ],
-                    changeComp: true
+                    countComp: false,
+                    fruitsComp: false,
+                    flag: true
                 },
                 methods: {
-                    changeFunc: function() {
-                        if (this.changeComp){
-                            this.changeComp = false;
-                        } else {
-                            this.changeComp = true;
+                    changeFunc: function(value) {
+                        this.flag=false;
+                        switch (value) {
+                            case 1:
+                                if (this.countComp==false) {
+                                    this.countComp = true;
+                                }
+                                break;
+                            case 2:
+                                if (this.fruitsComp==false) {
+                                    this.fruitsComp = true;
+                                }
+                                break;
+                            case 0:
+                                this.flag=true;
                         }
                     }
                 }
