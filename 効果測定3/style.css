@@ -1,9 +1,9 @@
 body {
-    background-color: #00ffff;
+    background-color: #000000;
 }
 
 a {
-    color: #000; /* hrefの色を黒にする */
+    color: #fff; /* hrefの色を黒にする */
     font-size: 0.875rem;
     text-decoration: none; /* hrefの下線を消す */
 }
@@ -41,6 +41,9 @@ li {
 .header .inner li:last-child {
     margin-right: 0;
 }
+.header .inner .title {
+    color: #fff;
+}
 
 /* ----------mainvisual-------- */
 .mainvisual {
@@ -72,3 +75,7 @@ li {
 .news .list li:first-child {
     padding-left: 0;
   }
+
+.news span, p, time {
+    color: #fff;
+}
