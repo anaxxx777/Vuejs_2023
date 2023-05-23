@@ -1,0 +1,74 @@
+body {
+    background-color: #00ffff;
+}
+
+a {
+    color: #000; /* hrefの色を黒にする */
+    font-size: 0.875rem;
+    text-decoration: none; /* hrefの下線を消す */
+}
+
+li {
+    list-style: none;
+    /* リストの点を消す */
+}
+
+.wrapper {
+    width: 100%;
+    max-width: 1032px;
+    padding: 0 16px;
+    margin: 0 auto;
+}
+
+/* ----------ヘッダー------- */
+.header {
+    height: 80px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.header .inner {
+    align-items: center;
+    display: flex;
+}
+.header .inner ul {
+    align-items: center;
+    display: flex;
+}
+.header .inner li {
+    margin-right: 30px;
+}
+.header .inner li:last-child {
+    margin-right: 0;
+}
+
+/* ----------mainvisual-------- */
+.mainvisual {
+    margin-bottom: 0px;
+}
+
+.mainvisual img {
+    width: 100%; /* 幅いっぱい */
+    height: calc(100vh - 80px); /* 高さ headerの高さを引く */
+    object-fit: cover; /* 画像の縦横比を維持したまま埋める */
+}
+
+/* -----------news-------------- */
+.news {
+    margin-bottom: 300px;
+}
+
+.news .list {
+    display: flex;
+    justify-content: space-between; /* 両端隙間なし、等間隔 */
+}
+
+.news .list li {
+    width: calc(100%/3); /* 横幅3等分、space-betweenの隙間がなくなる */
+    border-right: solid 1px #000;
+    padding: 10px 20px;
+}
+
+.news .list li:first-child {
+    padding-left: 0;
+  }
