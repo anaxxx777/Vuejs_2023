@@ -73,6 +73,21 @@
                     <span class="en">sample</span>
                     <span class="ja">サンプル</span>
                 </h2>
+                <p v-if="flag">
+                    <button v-model="countComp" @click="changeFunc(1)">カウント</button>
+                    <button v-model="fruitsComp" @click="changeFunc(2)">フルーツ</button>
+                </p>
+                <p v-else>
+                    <button v-model="flag" @click="changeFunc(0)">戻る</button>
+                </p>
+                <p v-if="countComp">
+                    <my-component></my-component>
+                    <my-component></my-component>
+                    <my-component></my-component>
+                </p>
+                <p v-if="fruitsComp">
+                    <fruits-data v-for="item in fruitsList" :name1="item.name" :name2="item.price"></fruits-data>
+                </p>
             </section>
         </main>
         <script>
@@ -84,10 +99,53 @@
                 // APIキーを設定する
                 // 左側メニュー内、権限管理の「1個のAPIキー」からコピー
             })
+            let MyComponent = {
+                template: '<p class="my-comp">カウンター　<button @click="addOne">追加</button> <button @click="subOne">減少</button> <button @click="addTen">10追加</button> {{count}}</p>',
+                data: function () {
+                return {
+                    count: 0
+                }
+                },
+                methods: {
+                    addOne: function() {
+                        return this.count ++;
+                    },
+                    subOne: function() {
+                        return this.count --;
+                    },
+                    addTen: function() {
+                        return this.count += 10;
+                    }
+                },
+            }
+            let fruitsData = {
+                template: '<p class="my-comp">商品名：{{name1}} 定価：{{name2}} 円 税込み価格：{{anai}} 円</p>',
+                props: ['name1','name2'],
+                // ↓↓ propsの変数名でアクセス!!(コンポーネント内の変数) dataにはアクセスしていない
+                computed: {
+                    anai: function() {
+                        return Math.floor(this.name2 * 1.1)
+                    }
+                }
+            }
             new Vue({
                 el: '#app',
+                components: {
+                    'my-component': MyComponent,
+                    'fruits-data': fruitsData
+                },
                 data: {
                     news: [],
+                    fruitsList: [
+                        {name: 'りんご', price: 120},
+                        {name: 'みかん', price: 100},
+                        {name: 'もも', price: 180},
+                        {name: 'バナナ', price: 150},
+                        {name: 'いちご', price: 250},
+                    ],
+                    countComp: false,
+                    fruitsComp: false,
+                    flag: true
                 },
                 mounted() {
                     this.fetchNews();
@@ -100,8 +158,25 @@
                                 endpoint: 'news',
                             })
                             .then((res) => this.news = res.contents);
+                    },
+                    changeFunc: function(value) {
+                        this.flag=false;
+                        switch (value) {
+                            case 1:
+                                if (this.countComp==false) {
+                                    this.countComp = true;
+                                }
+                                break;
+                            case 2:
+                                if (this.fruitsComp==false) {
+                                    this.fruitsComp = true;
+                                }
+                                break;
+                            case 0:
+                                this.flag=true;
+                        }
                     }
-                },
+                }
             })
         </script>
     </body>
