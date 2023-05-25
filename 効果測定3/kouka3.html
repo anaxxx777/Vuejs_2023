@@ -5,6 +5,8 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
+        <script src="https://unpkg.com/microcms-js-sdk@latest/dist/umd/microcms-js-sdk.js"></script> <!-- microCMS-SDKのCDN -->
+        <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css">
         <link rel="stylesheet" href="style.css" />
         <title>Document</title>
     </head>
@@ -14,8 +16,8 @@
                 <h1 class="title">ANAI</h1>
                 <nav>
                     <ul>
-                        <li><a href="#aaa">NEWS</a></li>
-                        <li><a href="#about">ABOUT</a></li>
+                        <li><a href="#news-anchor">NEWS</a></li>
+                        <li><a href="#contents-anchor">sample</a></li>
                         <li><a href="#business">BUSINESS</a></li>
                         <li><a href="#company">COMPANY</a></li>
                     </ul>
@@ -24,19 +26,26 @@
             <a class="contact" href="#">お問い合わせ</a>
         </header>
 
-        <main>
+        <main id="app">
             <div class="mainvisual">
                 <img src="Google.jpg" alt="" />
             </div>
 
-            <section id="aaa" class="news wrapper">
+            <section id="news-anchor" class="news wrapper">
                 <h2 class="section-title">
                     <span class="en">NEWS</span>
                     <span class="ja">ニュース</span>
                 </h2>
 
                 <ul class="list">
-                    <li>
+                    <li v-for="item in news">
+                        <div class="date-area">
+                            <time datetime="2021-01-01">{{item.publishedAt.substr(0,10)}}</time>
+                            <span>{{item.category.name}}</span>
+                        </div>
+                        <p>{{item.title}}</p>
+                    </li>
+                    <!-- <li>
                         <div class="date-area">
                             <time datetime="2021-01-01">2021.01.01</time>
                             <span>NEWS</span>
@@ -56,9 +65,44 @@
                             <span>NEWS</span>
                         </div>
                         <p>タイトルタイトルタイトルタイトル</p>
-                    </li>
+                    </li> -->
                 </ul>
             </section>
+            <section id="" class="contents wrapper">
+                <h2 class="section-title">
+                    <span class="en">sample</span>
+                    <span class="ja">サンプル</span>
+                </h2>
+            </section>
         </main>
+        <script>
+            const client = microcms.createClient({
+                serviceDomain: "x4alakbnzu", 
+                // 開設時に設定したドメイン名を設定する
+                // https://x4alakbnzu.microcms.io/apis/news/jezmduqkxwy9 ⇒ microcmsの左側の文字列
+                apiKey: '7AhijRlZpGfzL4FEojkcnx8WCkp9b9H74N1Z',
+                // APIキーを設定する
+                // 左側メニュー内、権限管理の「1個のAPIキー」からコピー
+            })
+            new Vue({
+                el: '#app',
+                data: {
+                    news: [],
+                },
+                mounted() {
+                    this.fetchNews();
+                },
+                methods: {
+                    // microCMSに登録したニュース一覧を取得する処理
+                    fetchNews: function () {
+                        client
+                            .get({
+                                endpoint: 'news',
+                            })
+                            .then((res) => this.news = res.contents);
+                    }
+                },
+            })
+        </script>
     </body>
 </html>

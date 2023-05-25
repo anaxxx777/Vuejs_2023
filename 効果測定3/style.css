@@ -20,6 +20,31 @@ li {
     margin: 0 auto;
 }
 
+.section-title {
+    margin-bottom: 40px;
+
+}
+.section-title .en {
+    display: block;
+    /* margin-bottom: 10px; */
+    font-size: 2rem;
+}
+
+.section-title .ja {
+    display: block;
+    margin-bottom: 40px;
+    font-size: 1rem;
+}
+
+/* section-titleの下線 */
+.section-title::after {
+    content: "";
+    background-color: #fff;
+    display: block;
+    height: 1px;
+    width: 60px;
+}
+
 /* ----------ヘッダー------- */
 .header {
     height: 80px;
@@ -43,11 +68,20 @@ li {
 }
 .header .inner .title {
     color: #fff;
+    margin-right: 60px;
+}
+.header .contact {
+    background-color: #f5f5f5;
+    color: #000;
+    width: 200px;
+    height: 80px; /* headerと高さ合わせる */
+    text-align: center; /* 幅中央寄せ */
+    line-height: 80px; /* heightと同じ値で高さ中央寄せ */
 }
 
 /* ----------mainvisual-------- */
 .mainvisual {
-    margin-bottom: 0px;
+    margin-bottom: 100px;
 }
 
 .mainvisual img {
@@ -58,7 +92,8 @@ li {
 
 /* -----------news-------------- */
 .news {
-    margin-bottom: 300px;
+    margin-bottom: 100px;
+    color: #fff;
 }
 
 .news .list {
@@ -68,14 +103,39 @@ li {
 
 .news .list li {
     width: calc(100%/3); /* 横幅3等分、space-betweenの隙間がなくなる */
-    border-right: solid 1px #000;
+    border-right: solid 1px #fff;
     padding: 10px 20px;
 }
 
 .news .list li:first-child {
     padding-left: 0;
-  }
+}
 
-.news span, p, time {
+.news .list li:last-child {
+    padding-right: 0;
+    border-right: none;
+}
+
+/* .news span, p, time {
+    color: #fff;
+} */
+
+.date-area {
+    margin-bottom: 10px;
+}
+
+.date-area span {
+    font-size: 0.8rem;
+    color: #000;
+    background-color: #fff;
+    display: inline-block;
+    width: 100px;
+    text-align: center;
+    margin-left: 10px;
+}
+
+/* -------------contents------------- */
+.contents {
+    margin-bottom: 100px;
     color: #fff;
 }
