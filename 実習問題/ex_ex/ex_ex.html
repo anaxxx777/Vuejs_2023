@@ -12,32 +12,48 @@
         <h2>それぞれ別々にカウントするコンポーネントの例</h2>
         <div id="app">
             <p v-if="flag">
-                <button v-model="countComp" @click="changeFunc(1)">カウント</button>
-                <button v-model="fruitsComp" @click="changeFunc(2)">フルーツ</button>
+                <button v-for="(item, index) in contentsList" @click="changeFunc(index+1)">{{item.name}}</button>
+                <br>
+                <button @click="changeFunc(1)">カウント</button>
+                <button @click="changeFunc(2)">フルーツ</button>
+                <button @click="changeFunc(3)">けいさん</button>
             </p>
             <p v-else>
                 <button v-model="flag" @click="changeFunc(0)">戻る</button>
             </p>
-            <p v-if="countComp">
-                <my-component></my-component>
-                <my-component></my-component>
-                <my-component></my-component>
+            <p v-if="contentsList[0].contentsFlag">
+                <my-component v-for="i in 3"></my-component>
             </p>
-            <p v-if="fruitsComp">
+            <p v-if="contentsList[1].contentsFlag">
                 <fruits-data v-for="item in fruitsList" :name1="item.name" :name2="item.price"></fruits-data>
             </p>
-            
-            
+            <p v-if="contentsList[2].contentsFlag">
+                <calc-component></calc-component>
+                <!-- <table>
+                    <tr>
+                        <td colspan="3">
+                            <input type="text" id="output" value="0" v-model="result">
+                        </td>
+                        <td>
+                            <button value="c" @click="calculate('c')">C</button>
+                        </td>
+                    </tr>
+                    <tr v-for="row in items">
+                        <td v-for="column in row">
+                            <button v-on:click="calculate(column)">{{column}}</button>
+                        </td>
+                    </tr>
+                </table> -->
+            </p>
         </div>
 
-        
         <script>
             let MyComponent = {
                 template: '<p class="my-comp">カウンター　<button @click="addOne">追加</button> <button @click="subOne">減少</button> <button @click="addTen">10追加</button> {{count}}</p>',
                 data: function () {
-                return {
-                    count: 0
-                }
+                    return {
+                        count: 0
+                    }
                 },
                 methods: {
                     addOne: function() {
@@ -54,10 +70,39 @@
             let fruitsData = {
                 template: '<p class="my-comp">商品名：{{name1}} 定価：{{name2}} 円 税込み価格：{{anai}} 円</p>',
                 props: ['name1','name2'],
-                // ↓↓ propsの変数名でアクセス!!(コンポーネント内の変数) dataにはアクセスしていない
                 computed: {
                     anai: function() {
                         return Math.floor(this.name2 * 1.1)
+                    }
+                }
+            }
+            let calculator = {
+                template: '<table class="my-comp">\
+                    <tr><td colspan="3"><input type="text" id="output" value="0" v-model="result"></td><td><button value="c" @click="calculate(\'c\')">C</button></td></tr>\
+                    <tr v-for="row in items"><td v-for="column in row"><button v-on:click="calculate(column)">{{column}}</button></td></tr>\
+                    </table>',
+                data: function() {
+                    return {
+                        result:'0',
+                        items:[
+                            ['7','8','9','/'],
+                            ['4','5','6','*'],
+                            ['1','2','3','-'],
+                            ['0','.','+','='],
+                        ]
+                    }
+                },
+                methods: {
+                    calculate: function(cmd){
+                        if(cmd == '='){
+                            this.result = eval(this.result);
+                        }else if(cmd == 'c'){
+                            this.result = '0';
+                        }else if(this.result == '0'){
+                            this.result = cmd;
+                        }else{
+                            this.result += cmd;
+                        }
                     }
                 }
             }
@@ -65,7 +110,8 @@
                 el: '#app',
                 components: {
                     'my-component': MyComponent,
-                    'fruits-data': fruitsData
+                    'fruits-data': fruitsData,
+                    'calc-component': calculator,
                 },
                 data:{
                     fruitsList: [
@@ -75,28 +121,36 @@
                         {name: 'バナナ', price: 150},
                         {name: 'いちご', price: 250},
                     ],
-                    countComp: false,
-                    fruitsComp: false,
-                    flag: true
+                    contentsList: [
+                        {name: 'カウント', contentsFlag: false},
+                        {name: 'フルーツ', contentsFlag: false},
+                        {name: 'けいさん', contentsFlag: false}
+                    ],
+                    // countComp: false,
+                    // fruitsComp: false,
+                    // calcComp: false,
+                    flag: true,
                 },
                 methods: {
                     changeFunc: function(value) {
-                        this.flag=false;
+                        this.flag = false;
                         switch (value) {
                             case 1:
-                                if (this.countComp==false) {
-                                    this.countComp = true;
-                                }
+                                this.contentsList[0].contentsFlag = true;
                                 break;
                             case 2:
-                                if (this.fruitsComp==false) {
-                                    this.fruitsComp = true;
-                                }
+                                this.contentsList[1].contentsFlag = true;
+                                break;
+                            case 3:
+                                this.contentsList[2].contentsFlag = true;
                                 break;
                             case 0:
-                                this.flag=true;
+                                this.flag = true;
+                                this.contentsList[0].contentsFlag = false;
+                                this.contentsList[1].contentsFlag = false;
+                                this.contentsList[2].contentsFlag = false;
                         }
-                    }
+                    },
                 }
             })
         </script>
