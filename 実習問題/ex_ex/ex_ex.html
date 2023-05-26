@@ -78,8 +78,8 @@
             }
             let calculator = {
                 template: '<table class="my-comp">\
-                    <tr><td colspan="3"><input type="text" id="output" value="0" v-model="result"></td><td><button value="c" @click="calculate(\'c\')">C</button></td></tr>\
-                    <tr v-for="row in items"><td v-for="column in row"><button v-on:click="calculate(column)">{{column}}</button></td></tr>\
+                    <tr><td colspan="3"><input type="text" id="output" value="0" v-model="result"></td><td><button class="bbb" value="c" @click="calculate(\'c\')">C</button></td></tr>\
+                    <tr v-for="row in items"><td v-for="column in row"><button  class="bbb" v-on:click="calculate(column)">{{column}}</button></td></tr>\
                     </table>',
                 data: function() {
                     return {
@@ -163,6 +163,9 @@
                 border-color: darkorange;
                 border-radius: 8px;
                 padding: 8px;
+            }
+            .bbb {
+                width: 20em;
             }
         </style>
     </body>
