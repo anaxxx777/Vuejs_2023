@@ -6,6 +6,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
         <script src="https://unpkg.com/microcms-js-sdk@latest/dist/umd/microcms-js-sdk.js"></script> <!-- microCMS-SDKのCDN -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hooper@0.2.1/dist/hooper.css">
+        <script src="https://cdn.jsdelivr.net/npm/hooper@0.2.1/dist/hooper.min.js"></script>
         <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css">
         <link rel="stylesheet" href="style.css" />
         <title>Document</title>
@@ -17,7 +19,7 @@
                 <nav>
                     <ul>
                         <li><a href="#news-anchor">NEWS</a></li>
-                        <li><a href="#contents-anchor">sample</a></li>
+                        <li><a href="#sample-anchor">SAMPLE</a></li>
                         <li><a href="#business">BUSINESS</a></li>
                         <li><a href="#company">COMPANY</a></li>
                     </ul>
@@ -28,7 +30,17 @@
 
         <main id="app">
             <div class="mainvisual">
-                <img src="Google.jpg" alt="" />
+                <hooper :auto-play="true" :infinite-scroll="true" :play-speed="7000" :transition="4000" :hover-pause="false" :wheel-control="false">
+                    <slide>
+                        <img src="Google.jpg" alt="" />
+                    </slide>
+                    <slide>
+                        <img src="Microsoft.jpg" alt="">
+                    </slide>
+                    <slide>
+                        <img src="Yahoo.jpg" alt="">
+                    </slide>
+                </hooper>
             </div>
 
             <section id="news-anchor" class="news wrapper">
@@ -68,26 +80,31 @@
                     </li> -->
                 </ul>
             </section>
-            <section id="" class="contents wrapper">
+            <section id="sample-anchor" class="sample wrapper">
                 <h2 class="section-title">
                     <span class="en">sample</span>
                     <span class="ja">サンプル</span>
                 </h2>
-                <p v-if="flag">
-                    <button v-model="countComp" @click="changeFunc(1)">カウント</button>
-                    <button v-model="fruitsComp" @click="changeFunc(2)">フルーツ</button>
-                </p>
-                <p v-else>
-                    <button v-model="flag" @click="changeFunc(0)">戻る</button>
-                </p>
-                <p v-if="countComp">
-                    <my-component></my-component>
-                    <my-component></my-component>
-                    <my-component></my-component>
-                </p>
-                <p v-if="fruitsComp">
-                    <fruits-data v-for="item in fruitsList" :name1="item.name" :name2="item.price"></fruits-data>
-                </p>
+                <div class="sample-inner">
+                    <div v-if="flag" class="change-btns">
+                        <button v-for="(item, index) in contentsList" @click="changeFunc(index+1)" class="change-btn">{{item.name}}</button>
+                        <!-- <button @click="changeFunc(1)">カウント</button>
+                        <button @click="changeFunc(2)">フルーツ</button>
+                        <button @click="changeFunc(3)">けいさん</button> -->
+                        </div>
+                    <div v-else>
+                        <button v-model="flag" @click="changeFunc(0)" class="reverse-btn">戻る</button>
+                    </div>
+                    <div v-if="contentsList[0].contentsFlag" class="sample-inner inner">
+                        <my-component v-for="i in 3"></my-component>
+                    </div>
+                    <div v-if="contentsList[1].contentsFlag" class="sample-inner inner">
+                        <fruits-data v-for="item in fruitsList" :name1="item.name" :name2="item.price"></fruits-data>
+                    </div>
+                    <div v-if="contentsList[2].contentsFlag" class="sample-inner inner">
+                        <calc-component></calc-component>
+                    </div>
+                </div>
             </section>
         </main>
         <script>
@@ -128,11 +145,44 @@
                     }
                 }
             }
+            let calculator = {
+                template: '<table class="my-comp">\
+                    <tr><td colspan="3"><input type="text" class="calc-input" id="output" value="0" v-model="result"></td><td><button class="bbb" value="c" @click="calculate(\'c\')">C</button></td></tr>\
+                    <tr v-for="row in items"><td v-for="column in row"><button class="calc-btn" v-on:click="calculate(column)">{{column}}</button></td></tr>\
+                    </table>',
+                data: function() {
+                    return {
+                        result:'0',
+                        items:[
+                            ['7','8','9','/'],
+                            ['4','5','6','*'],
+                            ['1','2','3','-'],
+                            ['0','.','+','='],
+                        ]
+                    }
+                },
+                methods: {
+                    calculate: function(cmd){
+                        if(cmd == '='){
+                            this.result = eval(this.result);
+                        }else if(cmd == 'c'){
+                            this.result = '0';
+                        }else if(this.result == '0'){
+                            this.result = cmd;
+                        }else{
+                            this.result += cmd;
+                        }
+                    }
+                }
+            }
             new Vue({
                 el: '#app',
                 components: {
                     'my-component': MyComponent,
-                    'fruits-data': fruitsData
+                    'fruits-data': fruitsData,
+                    'calc-component': calculator,
+                    Hooper: window.Hooper.Hooper,
+                    Slide: window.Hooper.Slide
                 },
                 data: {
                     news: [],
@@ -143,9 +193,15 @@
                         {name: 'バナナ', price: 150},
                         {name: 'いちご', price: 250},
                     ],
-                    countComp: false,
-                    fruitsComp: false,
-                    flag: true
+                    contentsList: [
+                        {name: 'カウント', contentsFlag: false},
+                        {name: 'フルーツ', contentsFlag: false},
+                        {name: 'けいさん', contentsFlag: false}
+                    ],
+                    // countComp: false,
+                    // fruitsComp: false,
+                    // calcComp: false,
+                    flag: true,
                 },
                 mounted() {
                     this.fetchNews();
@@ -160,24 +216,37 @@
                             .then((res) => this.news = res.contents);
                     },
                     changeFunc: function(value) {
-                        this.flag=false;
+                        this.flag = false;
                         switch (value) {
                             case 1:
-                                if (this.countComp==false) {
-                                    this.countComp = true;
-                                }
+                                this.contentsList[0].contentsFlag = true;
                                 break;
                             case 2:
-                                if (this.fruitsComp==false) {
-                                    this.fruitsComp = true;
-                                }
+                                this.contentsList[1].contentsFlag = true;
+                                break;
+                            case 3:
+                                this.contentsList[2].contentsFlag = true;
                                 break;
                             case 0:
-                                this.flag=true;
+                                this.flag = true;
+                                this.contentsList[0].contentsFlag = false;
+                                this.contentsList[1].contentsFlag = false;
+                                this.contentsList[2].contentsFlag = false;
                         }
                     }
                 }
             })
         </script>
+        <style>
+            .my-comp {
+                width: 400px;
+                background-color: #ffffe0;
+                border: solid;
+                border-color: darkorange;
+                border-radius: 8px;
+                padding: 8px;
+            }
+            
+        </style>
     </body>
 </html>

@@ -83,7 +83,9 @@ li {
 .mainvisual {
     margin-bottom: 100px;
 }
-
+.hooper {
+    height: 100%;
+}
 .mainvisual img {
     width: 100%; /* 幅いっぱい */
     height: calc(100vh - 80px); /* 高さ headerの高さを引く */
@@ -134,8 +136,70 @@ li {
     margin-left: 10px;
 }
 
-/* -------------contents------------- */
-.contents {
+/* -------------sample------------- */
+.sample {
     margin-bottom: 100px;
     color: #fff;
+}
+
+.change-btns {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.reverse-btn {
+    margin-bottom: 50px;
+    /* border-style: 1px solid #fff; */
+}
+
+.change-btns .change-btn {
+    border: 2px solid #fff;
+}
+.sample-inner .reverse-btn {
+    border: 2px solid #fff;
+}
+
+.sample-inner {
+    /* background-color: #fff; */
+    width: 800px;
+    height: auto;
+    text-align: center;
+    margin: 0 auto;
+}
+
+.sample-inner .inner {
+    color: #000;
+    width: 400px;
+    margin: 0 auto;
+}
+
+.sample-inner button {
+    /* color: #fff; */
+    background-color: #eb6100;
+    /* font-weight: 700; */
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    border-radius: 0.5rem;
+}
+
+.sample-inner button:hover,
+a.sample-inner button:hover {
+  color: #fff;
+  background: #f56500;
+}
+
+.sample-inner .calc-btn {
+    width: 4em;
+}
+
+.calc-input {
+    display: inline-block;
+    width: 12em;
+    max-width: 100%;
+    padding: 0.5em;
+    border: 1px solid #999;
+    box-sizing: border-box;
+    background: #f2f2f2;
+    margin: 0.5em 0;
 }
