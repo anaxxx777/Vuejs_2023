@@ -6,10 +6,20 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
         <script src="https://unpkg.com/microcms-js-sdk@latest/dist/umd/microcms-js-sdk.js"></script> <!-- microCMS-SDKのCDN -->
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hooper@0.2.1/dist/hooper.css">
-        <script src="https://cdn.jsdelivr.net/npm/hooper@0.2.1/dist/hooper.min.js"></script>
+        <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/date-fns/1.30.1/date_fns.min.js"
+        integrity="sha512-F+u8eWHrfY8Xw9BLzZ8rG/0wIvs0y+JyRJrXjp3VjtFPylAEEGwKbua5Ip/oiVhaTDaDs4eU2Xtsxjs/9ag2bQ=="
+        crossorigin="anonymous"
+        referrerpolicy="no-referrer"
+        ></script><!-- 日付に関するライブラリ「date-fns」 -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hooper@0.3.4/dist/hooper.css"> <!-- カルーセルスライダー用 -->
+        <script src="https://cdn.jsdelivr.net/npm/hooper@0.3.4/dist/hooper.min.js"></script> <!-- カルーセルスライダー用 -->
         <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css">
         <link rel="stylesheet" href="style.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+        integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
         <title>Document</title>
     </head>
     <body>
@@ -25,21 +35,45 @@
                     </ul>
                 </nav>
             </div>
-            <a class="contact" href="#">お問い合わせ</a>
+            <div class="contact">
+                <a href="#" style="color: black;"><i class="fa-solid fa-envelope"></i> contact</a>
+            </div>
         </header>
 
         <main id="app">
+            <div style="background-color: aqua;">
+                <!-- {{ccc.text}}
+                <br> -->
+                0.index:{{mmm}}
+                <br>
+                length:{{jjj}}
+                <br>
+                {{today}}
+                <br>
+                <!-- -<input type="number" v-model="obj.index"> -->
+                -<input type="text" v-model="obj.objList.memo">
+                -<input type="text" v-model="obj.objList.url">
+                <!-- <br> -->
+                <!-- -<input type="text" v-model="obj.objList.registrationDate"> -->
+                <!-- <p>{{hoge}}</p> -->
+                <!-- <p>{{JSON.parse(obj.objList.old)}}</p> -->
+                
+                <button @click="objAdd">touroku</button>
+                <br>
+                <ul>
+                    <li v-for="aa in hoge">
+                        <p>{{aa}}</p>
+                    </li>
+                </ul>
+                <!-- <button @click="xxx" v-model="x">xxx</button>
+                <p>x:{{x.old}}</p> -->
+            </div>
+            
             <div class="mainvisual">
                 <hooper :auto-play="true" :infinite-scroll="true" :play-speed="7000" :transition="4000" :hover-pause="false" :wheel-control="false">
-                    <slide>
-                        <img src="Google.jpg" alt="" />
-                    </slide>
-                    <slide>
-                        <img src="Microsoft.jpg" alt="">
-                    </slide>
-                    <slide>
-                        <img src="Yahoo.jpg" alt="">
-                    </slide>
+                    <slide v-for="item in mainvisualList">
+                        <img :src="item" alt="">
+                    </slide>>
                 </hooper>
             </div>
 
@@ -52,7 +86,7 @@
                 <ul class="list">
                     <li v-for="item in news">
                         <div class="date-area">
-                            <time datetime="2021-01-01">{{item.publishedAt.substr(0,10)}}</time>
+                            <time datetime="2021-01-01">{{formattedPublishedAt(item.publishedAt)}}</time>
                             <span>{{item.category.name}}</span>
                         </div>
                         <p>{{item.title}}</p>
@@ -107,7 +141,25 @@
                 </div>
             </section>
         </main>
+        <footer class="footer">
+            <div class="wrapper">
+                <div class="footer-inner">
+                    <h2 class="title">ANAI</h3>
+                    <div class="info">
+                        <p>
+                            テキストテキストテキスト<br>
+                            テキストテキスト<br>
+                            テキストテキストテキ
+                        </p>
+                    <p>000-000-0000</p>
+                    </div>
+                </div>
+                <p class="copyright">&copy; Web Entertainment Design Inc.</p>
+            </div>
+        </footer>
+
         <script>
+            // microCMS用
             const client = microcms.createClient({
                 serviceDomain: "x4alakbnzu", 
                 // 開設時に設定したドメイン名を設定する
@@ -181,11 +233,22 @@
                     'my-component': MyComponent,
                     'fruits-data': fruitsData,
                     'calc-component': calculator,
+                    // カルーセルスライダー用
                     Hooper: window.Hooper.Hooper,
                     Slide: window.Hooper.Slide
                 },
                 data: {
-                    news: [],
+                    singleItem: '',
+                    obj: {index: new Number(), objList: {memo:'', url:'', registrationDate:''}},
+                    x: '',
+                    hoge: '',
+                    jjj: new Number(),
+                    mmm: '',
+                    ccc: new Object(),
+
+                    news: [], // microCMS用
+
+                    mainvisualList: ['Google.jpg','Microsoft.jpg','Yahoo.jpg'],
                     fruitsList: [
                         {name: 'りんご', price: 120},
                         {name: 'みかん', price: 100},
@@ -203,8 +266,29 @@
                     // calcComp: false,
                     flag: true,
                 },
+                computed: {
+                formattedPublishedAt: function () { /* date-fnsライブラリで日付表示を成型(下記例では一桁月の頭「0」を消している) */
+                        return (publishedAt) => {
+                            return dateFns.format(new Date(publishedAt), "YYYY-M-D");
+                        };
+                    },
+                today: function () { /* date-fnsライブラリで日付表示を成型(下記例では一桁月の頭「0」を消している) */
+                            return dateFns.format(new Date(), "YYYY-M-D HH:mm");
+                    }
+                    
+                },
                 mounted() {
+                    // microCMS用
                     this.fetchNews();
+
+                    // let nameOld = {name:"tom",old:10};
+                    // localStorage.setItem("myCat", JSON.stringify(nameOld));
+                    // localStorage.setItem("myMouse", "jelly");
+                    this.hoge = { ...localStorage };
+                    this.jjj = localStorage.length;
+                    this.mmm = localStorage.key(0);
+                    this.ccc = JSON.parse(localStorage.getItem(localStorage.key(0)));
+                    // this.singleItem = localStorage.getItem('myCat'); // tom が取得できる
                 },
                 methods: {
                     // microCMSに登録したニュース一覧を取得する処理
@@ -233,7 +317,26 @@
                                 this.contentsList[1].contentsFlag = false;
                                 this.contentsList[2].contentsFlag = false;
                         }
-                    }
+                    },
+                    objAdd: function() {
+                        if (this.obj.objList.memo=='' | this.obj.objList.url=='') {
+                                return alert('kuhaku');
+                        } else {
+                            for(let i = 0; i < localStorage.length; i++) {
+                                if (this.obj.objList.memo == JSON.parse(localStorage.getItem(localStorage.key(i))).memo) {
+                                    return alert('tyoufuku');
+                                }
+                            }
+                        }
+                        this.obj.index = localStorage.length + 1;
+                        this.obj.objList.registrationDate = this.today;
+                        localStorage.setItem(this.obj.index, JSON.stringify(this.obj.objList));
+                        this.obj.objList.memo = '';
+                        this.obj.objList.url = '';
+                    },
+                    xxx: function() {
+                        return this.x = JSON.parse(localStorage.getItem('aaa'));
+                    },
                 }
             })
         </script>
