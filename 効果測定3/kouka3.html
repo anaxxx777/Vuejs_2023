@@ -42,13 +42,21 @@
 
         <main id="app">
             <div style="background-color: aqua;">
-                <!-- {{ccc.text}}
-                <br> -->
+                <!-- Object.keys(this.localstorageList[0]) -->
+                {{Object.keys(localstorageList[1])[0]}}
+                {{localstorageList[0][6].registrationDate}}
+                <ul v-model="localstorageList">
+                    <li v-for="(item,k) in localstorageList">
+                        [{{k+1}}]memo:{{item[Object.keys(localstorageList[k])[0]].memo}}, url:{{item[Object.keys(localstorageList[k])[0]].url}}, touroku:{{item[Object.keys(localstorageList[k])[0]].registrationDate}}
+                    </li>
+                </ul>
+                <!-- {{localstorageList}}
+                <br>
                 0.index:{{mmm}}
                 <br>
                 length:{{jjj}}
-                <br>
-                {{today}}
+                <br> -->
+                {{now}}
                 <br>
                 <!-- -<input type="number" v-model="obj.index"> -->
                 -<input type="text" v-model="obj.objList.memo">
@@ -58,13 +66,21 @@
                 <!-- <p>{{hoge}}</p> -->
                 <!-- <p>{{JSON.parse(obj.objList.old)}}</p> -->
                 
-                <button @click="objAdd">touroku</button>
+                <button @click="localstorageAdd">touroku</button>
+                <button @click="localstorageListSort">sort</button>
                 <br>
-                <ul>
-                    <li v-for="aa in hoge">
+                <ul v-model="hoge">
+                    {{typeof(hoge)}}
+                    {{hoge}}
+                    <br>
+                    <li v-for="(aa,bb) in hoge">
+                        <p>{{bb}}</p>
                         <p>{{aa}}</p>
+                        <a href=""></a>
                     </li>
                 </ul>
+                <!-- <p v-model="hoge">{{hoge}}</p> -->
+                
                 <!-- <button @click="xxx" v-model="x">xxx</button>
                 <p>x:{{x.old}}</p> -->
             </div>
@@ -241,10 +257,12 @@
                     singleItem: '',
                     obj: {index: new Number(), objList: {memo:'', url:'', registrationDate:''}},
                     x: '',
-                    hoge: '',
+                    hoge: new Object(),
                     jjj: new Number(),
                     mmm: '',
-                    ccc: new Object(),
+                    localstorageList: [],
+                    keyList: [],
+                    listList: [],
 
                     news: [], // microCMS用
 
@@ -272,8 +290,8 @@
                             return dateFns.format(new Date(publishedAt), "YYYY-M-D");
                         };
                     },
-                today: function () { /* date-fnsライブラリで日付表示を成型(下記例では一桁月の頭「0」を消している) */
-                            return dateFns.format(new Date(), "YYYY-M-D HH:mm");
+                now: function () { /* date-fnsライブラリで日付表示を成型(下記例では一桁月の頭「0」を消している) */
+                            return dateFns.format(new Date(), "YYYY-M-D HH:mm:ss");
                     }
                     
                 },
@@ -284,11 +302,22 @@
                     // let nameOld = {name:"tom",old:10};
                     // localStorage.setItem("myCat", JSON.stringify(nameOld));
                     // localStorage.setItem("myMouse", "jelly");
+                    // this.singleItem = localStorage.getItem('myCat'); // tom が取得できる
                     this.hoge = { ...localStorage };
                     this.jjj = localStorage.length;
                     this.mmm = localStorage.key(0);
-                    this.ccc = JSON.parse(localStorage.getItem(localStorage.key(0)));
-                    // this.singleItem = localStorage.getItem('myCat'); // tom が取得できる
+                    for(let i = 0; i < localStorage.length; i++) {
+                        // let v = JSON.parse(localStorage.getItem(z));
+                        // let x = {};
+                        // let x = JSON.parse(localStorage.getItem());
+                        // alert(JSON.stringify(x));
+                        this.localstorageList.push({[localStorage.key(i)]:JSON.parse(localStorage.getItem(localStorage.key(i)))});
+                    };
+                    // alert(Object.keys(this.localstorageList[0]));
+                    // for(let i = 0; i < localStorage.length; i++){
+                    //     alert(typeof(localStorage.key(i)));
+                    // };
+                    // this.localstorageList = JSON.parse(localStorage.getItem(localStorage.key(0)));
                 },
                 methods: {
                     // microCMSに登録したニュース一覧を取得する処理
@@ -318,7 +347,7 @@
                                 this.contentsList[2].contentsFlag = false;
                         }
                     },
-                    objAdd: function() {
+                    localstorageAdd: function() {
                         if (this.obj.objList.memo=='' | this.obj.objList.url=='') {
                                 return alert('kuhaku');
                         } else {
@@ -329,10 +358,26 @@
                             }
                         }
                         this.obj.index = localStorage.length + 1;
-                        this.obj.objList.registrationDate = this.today;
+                        this.obj.objList.registrationDate = this.now;
                         localStorage.setItem(this.obj.index, JSON.stringify(this.obj.objList));
+                        this.hoge = {...localStorage};
                         this.obj.objList.memo = '';
                         this.obj.objList.url = '';
+                    },
+                    localstorageListSort: function() {
+                        // alert(JSON.stringify(this.localstorageList));
+                        // {{Object.keys(localstorageList[1])[0]}}
+                        // {{localstorageList[0][6].registrationDate}}
+                        this.localstorageList.sort((a,b)=>new Date(a.registrationDate) - new Date(b.registrationDate));
+                        // alert(JSON.stringify(this.localstorageList));
+                        // this.hoge = Object.keys(this.hoge).map(function(key) {
+                        //     return this.hoge[key];
+                        //     }).sort(function(a, b) {
+                        //     return (new Date(a.registrationDate) < new Date(b.registrationDate)) ? -1 : 1;  //オブジェクトの昇順ソート
+                        //     });
+                    },
+                    localStorageListDelete: function(){
+                        
                     },
                     xxx: function() {
                         return this.x = JSON.parse(localStorage.getItem('aaa'));
