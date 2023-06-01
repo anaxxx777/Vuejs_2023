@@ -42,47 +42,32 @@
 
         <main id="app">
             <div style="background-color: aqua;">
-                <!-- Object.keys(this.localstorageList[0]) -->
-                {{Object.keys(localstorageList[1])[0]}}
-                {{localstorageList[0][6].registrationDate}}
-                <ul v-model="localstorageList">
-                    <li v-for="(item,k) in localstorageList">
-                        [{{k+1}}]memo:{{item[Object.keys(localstorageList[k])[0]].memo}}, url:{{item[Object.keys(localstorageList[k])[0]].url}}, touroku:{{item[Object.keys(localstorageList[k])[0]].registrationDate}}
+                <!-- 配列のインデックスを指定してキーを取得(ただし、Object.keys()の戻り値は文字型が入った配列) -->
+                <!-- {{Object.keys(this.localstorageCopyList[0])}} -->
+                <!-- {{Array.isArray(Object.keys(this.localstorageCopyList[0]))}} -->
+                <!-- 要素数が一つなので[0]でキー(文字型)を取得 -->
+                <!-- {{Object.keys(localstorageCopyList[0])[0]}} -->
+                <!-- <br> -->
+                <!-- 全要素取得(オブジェクトが格納されている配列) -->
+                <!-- <p v-model="localstorageCopyList">{{localstorageCopyList}}</p> -->
+                <!-- プロパティの取得 -->
+                <!-- オブジェクト['キー']⇒プロパティ取得(今回はプロパティもオブジェクトの構造) -->
+                <!-- オブジェクト['キー'].'キー'でアクセス(オブジェクト['キー']['キー']でも可) -->
+                <ul v-model="localstorageCopyList">
+                    <li v-for="(item,k) in localstorageCopyList">
+                        【{{Object.keys(localstorageCopyList[k])[0]}}】[{{k+1}}]memo:{{item[Object.keys(localstorageCopyList[k])[0]].memo}}, url:{{item[Object.keys(localstorageCopyList[k])[0]].url}}, touroku:{{item[Object.keys(localstorageCopyList[k])[0]].registrationDate}}
+                        <button @click="localstorageDelete(k)">kesu</button>
                     </li>
                 </ul>
-                <!-- {{localstorageList}}
-                <br>
-                0.index:{{mmm}}
-                <br>
-                length:{{jjj}}
-                <br> -->
+                
                 {{now}}
                 <br>
-                <!-- -<input type="number" v-model="obj.index"> -->
                 -<input type="text" v-model="obj.objList.memo">
                 -<input type="text" v-model="obj.objList.url">
-                <!-- <br> -->
-                <!-- -<input type="text" v-model="obj.objList.registrationDate"> -->
-                <!-- <p>{{hoge}}</p> -->
-                <!-- <p>{{JSON.parse(obj.objList.old)}}</p> -->
-                
                 <button @click="localstorageAdd">touroku</button>
-                <button @click="localstorageListSort">sort</button>
+                <button @click="localstorageCopyListDownsort">↓sort↓</button>
+                <button @click="localstorageCopyListUpsort">↑sort↑</button>
                 <br>
-                <ul v-model="hoge">
-                    {{typeof(hoge)}}
-                    {{hoge}}
-                    <br>
-                    <li v-for="(aa,bb) in hoge">
-                        <p>{{bb}}</p>
-                        <p>{{aa}}</p>
-                        <a href=""></a>
-                    </li>
-                </ul>
-                <!-- <p v-model="hoge">{{hoge}}</p> -->
-                
-                <!-- <button @click="xxx" v-model="x">xxx</button>
-                <p>x:{{x.old}}</p> -->
             </div>
             
             <div class="mainvisual">
@@ -254,15 +239,14 @@
                     Slide: window.Hooper.Slide
                 },
                 data: {
-                    singleItem: '',
                     obj: {index: new Number(), objList: {memo:'', url:'', registrationDate:''}},
-                    x: '',
+                    // x: '',
                     hoge: new Object(),
-                    jjj: new Number(),
-                    mmm: '',
-                    localstorageList: [],
-                    keyList: [],
-                    listList: [],
+                    // jjj: new Number(),
+                    // mmm: '',
+                    localstorageCopyList: [], // ローカルストレージの全データ(オブジェクト)を格納
+                    keyList: [], // 
+                    maxKey: '',
 
                     news: [], // microCMS用
 
@@ -292,32 +276,32 @@
                     },
                 now: function () { /* date-fnsライブラリで日付表示を成型(下記例では一桁月の頭「0」を消している) */
                             return dateFns.format(new Date(), "YYYY-M-D HH:mm:ss");
-                    }
-                    
+                    },
                 },
                 mounted() {
                     // microCMS用
                     this.fetchNews();
 
-                    // let nameOld = {name:"tom",old:10};
-                    // localStorage.setItem("myCat", JSON.stringify(nameOld));
-                    // localStorage.setItem("myMouse", "jelly");
-                    // this.singleItem = localStorage.getItem('myCat'); // tom が取得できる
+                    // ローカルストレージ内データが全て文字列として入る("",{}等も)
                     this.hoge = { ...localStorage };
-                    this.jjj = localStorage.length;
-                    this.mmm = localStorage.key(0);
+
+                    // localstorageCopyListを作る処理
                     for(let i = 0; i < localStorage.length; i++) {
-                        // let v = JSON.parse(localStorage.getItem(z));
-                        // let x = {};
-                        // let x = JSON.parse(localStorage.getItem());
-                        // alert(JSON.stringify(x));
-                        this.localstorageList.push({[localStorage.key(i)]:JSON.parse(localStorage.getItem(localStorage.key(i)))});
+                        let key = localStorage.key(i);
+                        // localStorage.key(i)でkeyを取得(keyは文字型)
+                        // keyを引数にローカルストレージから要素を文字列として取得
+                        // オブジェクトのkeyに設定する変数は"[]"をつける事で可能になる
+                        // 要素は文字列なので処理できる様にパースして格納
+                        this.localstorageCopyList.push({[key]:JSON.parse(localStorage.getItem(key))});
+                        this.keyList.push(key);
                     };
-                    // alert(Object.keys(this.localstorageList[0]));
-                    // for(let i = 0; i < localStorage.length; i++){
-                    //     alert(typeof(localStorage.key(i)));
-                    // };
-                    // this.localstorageList = JSON.parse(localStorage.getItem(localStorage.key(0)));
+                    // Mathメソッドで完全な数値文字列は数値として処理される(戻り値は数値型)
+                    this.maxKey = Math.max(...this.keyList);
+                    this.localstorageCopyListDownsort();
+                    // alert(localStorage.getItem(Number('12')));
+                    // alert(localStorage.getItem(12));
+                    // alert(JSON.stringify(this.hoge));
+                    // alert(JSON.stringify(this.localstorageCopyList));
                 },
                 methods: {
                     // microCMSに登録したニュース一覧を取得する処理
@@ -357,27 +341,23 @@
                                 }
                             }
                         }
-                        this.obj.index = localStorage.length + 1;
+                        this.obj.index = this.maxKey + 1;
                         this.obj.objList.registrationDate = this.now;
                         localStorage.setItem(this.obj.index, JSON.stringify(this.obj.objList));
+                        this.localstorageCopyList.push({[this.obj.index]:JSON.parse(JSON.stringify(this.obj.objList))});
                         this.hoge = {...localStorage};
                         this.obj.objList.memo = '';
                         this.obj.objList.url = '';
                     },
-                    localstorageListSort: function() {
-                        // alert(JSON.stringify(this.localstorageList));
-                        // {{Object.keys(localstorageList[1])[0]}}
-                        // {{localstorageList[0][6].registrationDate}}
-                        this.localstorageList.sort((a,b)=>new Date(a.registrationDate) - new Date(b.registrationDate));
-                        // alert(JSON.stringify(this.localstorageList));
-                        // this.hoge = Object.keys(this.hoge).map(function(key) {
-                        //     return this.hoge[key];
-                        //     }).sort(function(a, b) {
-                        //     return (new Date(a.registrationDate) < new Date(b.registrationDate)) ? -1 : 1;  //オブジェクトの昇順ソート
-                        //     });
+                    localstorageCopyListDownsort: function() {
+                        this.localstorageCopyList.sort((a,b)=>new Date(b[Object.keys(b)[0]].registrationDate) - new Date(a[Object.keys(a)[0]].registrationDate));
                     },
-                    localStorageListDelete: function(){
-                        
+                    localstorageCopyListUpsort: function() {
+                        this.localstorageCopyList.sort((a,b)=>new Date(a[Object.keys(a)[0]].registrationDate) - new Date(b[Object.keys(b)[0]].registrationDate));
+                    },
+                    localstorageDelete: function(value){
+                        localStorage.removeItem(Object.keys(this.localstorageCopyList[value])[0]);
+                        this.localstorageCopyList.splice(value,1);
                     },
                     xxx: function() {
                         return this.x = JSON.parse(localStorage.getItem('aaa'));
