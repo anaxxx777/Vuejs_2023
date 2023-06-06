@@ -5,89 +5,196 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
-        <script src="https://unpkg.com/microcms-js-sdk@latest/dist/umd/microcms-js-sdk.js"></script> <!-- microCMS-SDKのCDN -->
+        <!-- microCMS-SDKのCDN -->
+        <script src="https://unpkg.com/microcms-js-sdk@latest/dist/umd/microcms-js-sdk.js"></script>
+        <!-- 日付に関するライブラリ「date-fns」 -->
         <script
         src="https://cdnjs.cloudflare.com/ajax/libs/date-fns/1.30.1/date_fns.min.js"
         integrity="sha512-F+u8eWHrfY8Xw9BLzZ8rG/0wIvs0y+JyRJrXjp3VjtFPylAEEGwKbua5Ip/oiVhaTDaDs4eU2Xtsxjs/9ag2bQ=="
         crossorigin="anonymous"
         referrerpolicy="no-referrer"
-        ></script><!-- 日付に関するライブラリ「date-fns」 -->
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hooper@0.3.4/dist/hooper.css"> <!-- カルーセルスライダー用 -->
-        <script src="https://cdn.jsdelivr.net/npm/hooper@0.3.4/dist/hooper.min.js"></script> <!-- カルーセルスライダー用 -->
+        ></script>
+        <!-- カルーセルスライダー -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hooper@0.3.4/dist/hooper.css">
+        <script src="https://cdn.jsdelivr.net/npm/hooper@0.3.4/dist/hooper.min.js"></script>
+        <!-- リセットcss -->
         <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css">
         <link rel="stylesheet" href="style.css" />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
-        integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
-
-        <title>Document</title>
+        <!-- fontawesome -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+        <!-- jquery -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+        <!-- ページネーション -->
+        <!-- <script src="paginathing.min.js"></script> -->
+        <!-- データテーブル -->
+        <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.20/datatables.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.20/datatables.min.css"/>
+        <!-- ハンバーガーメニュー -->
+        <script src="https://cdn.jsdelivr.net/npm/vue-burger-menu@2.0.5/dist/vue-burger-menu.umd.js"></script>
+        <title>効果測定3</title>
     </head>
+
     <body>
         <header class="header">
             <div class="inner wrapper">
                 <h1 class="title">ANAI</h1>
-                <nav>
+                <nav class="float-list">
                     <ul>
+                        <li><a href="#sample1-anchor">SAMPLE1</a></li>
+                        <li><a href="#sample2-anchor">SAMPLE2</a></li>
                         <li><a href="#news-anchor">NEWS</a></li>
-                        <li><a href="#sample-anchor">SAMPLE</a></li>
                         <li><a href="#business">BUSINESS</a></li>
                         <li><a href="#company">COMPANY</a></li>
                     </ul>
                 </nav>
+                <slide id="app-x" left disableOutsideClick width="200">
+                    <h1 class="title">ANAI</h1>
+                    <nav>
+                        <ul style="display: block;">
+                            <li><a href="#sample1-anchor">SAMPLE1</a></li>
+                            <li><a href="#sample2-anchor">SAMPLE2</a></li>
+                            <li><a href="#news-anchor">NEWS</a></li>
+                            <li><a href="#business">BUSINESS</a></li>
+                            <li><a href="#company">COMPANY</a></li>
+                        </ul>
+                    </nav>
+                </slide>
             </div>
             <div class="contact">
-                <a href="#" style="color: black;"><i class="fa-solid fa-envelope"></i> contact</a>
+                <a href="#" style="color: black;"><i class="fa-solid fa-envelope"></i>&nbsp;contact</a>
             </div>
         </header>
 
         <main id="app">
-            <div style="background-color: aqua;">
-                <!-- 配列のインデックスを指定してキーを取得(ただし、Object.keys()の戻り値は文字型が入った配列) -->
-                <!-- {{Object.keys(this.localstorageCopyList[0])}} -->
-                <!-- {{Array.isArray(Object.keys(this.localstorageCopyList[0]))}} -->
-                <!-- 要素数が一つなので[0]でキー(文字型)を取得 -->
-                <!-- {{Object.keys(localstorageCopyList[0])[0]}} -->
-                <!-- <br> -->
-                <!-- 全要素取得(オブジェクトが格納されている配列) -->
-                <!-- <p v-model="localstorageCopyList">{{localstorageCopyList}}</p> -->
-                <!-- プロパティの取得 -->
-                <!-- オブジェクト['キー']⇒プロパティ取得(今回はプロパティもオブジェクトの構造) -->
-                <!-- オブジェクト['キー'].'キー'でアクセス(オブジェクト['キー']['キー']でも可) -->
-                <ul v-model="localstorageCopyList">
-                    <li v-for="(item,k) in localstorageCopyList">
-                        【{{Object.keys(localstorageCopyList[k])[0]}}】[{{k+1}}]memo:{{item[Object.keys(localstorageCopyList[k])[0]].memo}}, url:{{item[Object.keys(localstorageCopyList[k])[0]].url}}, touroku:{{item[Object.keys(localstorageCopyList[k])[0]].registrationDate}}
-                        <button @click="localstorageDelete(k)">kesu</button>
-                    </li>
-                </ul>
-                
-                {{now}}
-                <br>
-                -<input type="text" v-model="obj.objList.memo">
-                -<input type="text" v-model="obj.objList.url">
-                <button @click="localstorageAdd">touroku</button>
-                <button @click="localstorageCopyListDownsort">↓sort↓</button>
-                <button @click="localstorageCopyListUpsort">↑sort↑</button>
-                <br>
-            </div>
-            
             <div class="mainvisual">
-                <hooper :auto-play="true" :infinite-scroll="true" :play-speed="7000" :transition="4000" :hover-pause="false" :wheel-control="false">
+<!-- 採点箇所２：Vue.jsの機能を用いて画像が表示されている １０点 -->
+                <no-img></no-img>
+                <!-- <hooper :auto-play="true" :infinite-scroll="true" :play-speed="7000" :transition="4000" :hover-pause="false" :wheel-control="false">
                     <slide v-for="item in mainvisualList">
                         <img :src="item" alt="">
-                    </slide>>
-                </hooper>
+                    </slide>
+                </hooper> -->
             </div>
-
+            <section id="sample1-anchor" class="sample wrapper">
+                <h2 class="section-title">
+                    <span class="en">sample1</span>
+                    <span class="ja">サンプル1</span>
+                </h2>
+                <div class="sample-inner">
+                    <!-- <button><img src="neko.jpg" alt=""></button> -->
+                    <div v-if="flag" class="change-btns">
+                        <button v-for="(item, index) in contentsList" @click="changeFunc(index+1)" class="change-btn"><img :src="item.image" alt=""></button>
+                        <!-- <button @click="changeFunc(1)">カウント</button>
+                        <button @click="changeFunc(2)">フルーツ</button>
+                        <button @click="changeFunc(3)">けいさん</button> -->
+                        </div>
+                    <div v-else>
+                        <button v-model="flag" @click="changeFunc(0)" class="reverse-btn">戻る</button>
+                    </div>
+                    <div v-if="contentsList[0].contentsFlag" class="sample-inner inner">
+                        <my-component v-for="i in 3"></my-component>
+                    </div>
+                    <div v-if="contentsList[1].contentsFlag" class="sample-inner inner">
+                        <fruits-data v-for="item in fruitsList" :name1="item.name" :name2="item.price"></fruits-data>
+                    </div>
+                    <div v-if="contentsList[2].contentsFlag" class="sample-inner inner">
+                        <calc-component></calc-component>
+                    </div>
+                </div>
+            </section>
+            <section id="sample2-anchor" class="sample2 wrapper">
+                <h2 class="section-title">
+                    <span class="en">SAMPLE2</span>
+                    <span class="ja">サンプル2</span>
+                </h2>
+                <div class="sample2-inner">
+                    <!-- 配列のインデックスを指定してキーを取得(ただし、Object.keys()の戻り値は文字型が入った配列) -->
+                    <!-- {{Object.keys(this.localstorageCopyList[0])}} -->
+                    <!-- {{Array.isArray(Object.keys(this.localstorageCopyList[0]))}} -->
+                    <!-- 要素数が一つなので[0]でキー(文字型)を取得 -->
+                    <!-- {{Object.keys(localstorageCopyList[0])[0]}} -->
+                    <!-- <br> -->
+                    <!-- 全要素取得(オブジェクトが格納されている配列) -->
+                    <!-- <p v-model="localstorageCopyList">{{localstorageCopyList}}</p> -->
+                    <!-- プロパティの取得 -->
+                    <!-- オブジェクト['キー']⇒プロパティ取得(今回はプロパティもオブジェクトの構造) -->
+                    <!-- オブジェクト['キー'].'キー'でアクセス(オブジェクト['キー']['キー']でも可) -->
+                    <!-- <ul v-model="localstorageCopyList">
+                        <li v-for="(item,k) in localstorageCopyList">
+                            【{{Object.keys(localstorageCopyList[k])[0]}}】[{{k+1}}]memo:{{item[Object.keys(localstorageCopyList[k])[0]].memo}}, url:{{item[Object.keys(localstorageCopyList[k])[0]].url}}, touroku:{{item[Object.keys(localstorageCopyList[k])[0]].registrationDate}}
+                            <button @click="localstorageDelete(k)">kesu</button>
+                        </li>
+                    </ul> -->
+                    {{time}}
+                    <div class="sample2-input-wrapper">
+<!-- 採点箇所１：インプット １０点 -->
+                            <span class="sample2-span">memo</span><input class="sample2-input" type="text" v-model="obj.objList.memo">
+                            <span class="sample2-span">url</span><input class="sample2-input" type="text" v-model="obj.objList.url"></label>
+                            <div class="sava-sort-buttons">
+                                <button @click="localstorageAdd">
+                                    <i class="fas fa-save"></i>
+                                    <span>save</span>
+                                </button>
+                                <button @click="localstorageCopyListDownsort">
+                                    <i class="fa-solid fa-sort"></i>
+                                    <span>sort</span>
+                                </button>
+                                <!-- <v-else button @click="localstorageCopyListUpsort">
+                                    <i class="fa-duotone fa-sort-up"></i>
+                                    <span>sort</span>
+                                </button> -->
+                            </div>
+                    </div>
+                    <table id="sample2-table" v-model="localstorageCopyList" style="width: 100%; border-collapse: collapse;">
+                        <thead class="sample2-thead">
+                            <tr>
+                                <th class="sample2-thead id">id</th>
+                                <th class="sample2-thead memo">memo</th>
+                                <th class="sample2-thead time">jikan</th>
+                                <th class="sample2-thead link"></th>
+                                <th class="sample2-thead del"></th>
+                            </tr>
+                        </thead>
+<!-- 採点箇所１：アウトプット １０点 -->
+<!-- 採点箇所３：繰り返しor条件分岐が実装されている １０点 -->
+                        <tbody v-if="dataFlag" class="sample2-tbody">
+                            <tr v-for="(item,k) in localstorageCopyList">
+                                <th>{{k+1}}</th>
+                                <td>
+                                    {{item[Object.keys(localstorageCopyList[k])[0]].memo}}
+                                </td>
+                                <td>
+                                    {{item[Object.keys(localstorageCopyList[k])[0]].registrationDate}}
+                                </td>
+                                <td>
+                                    <!-- {{item[Object.keys(localstorageCopyList[k])[0]].url}} -->
+                                    <!-- <button onclick="window.open(item[Object.keys(localstorageCopyList[k])[0]].url)">link</button> -->
+                                    <!-- <button onclick="location.href='item[Object.keys(localstorageCopyList[k])[0]].url'">link</button> -->
+<!-- 採点箇所４：外部サイトへ遷移する機能がVue.jsで実装されている １０点 -->
+                                    <button @click="jump(item[Object.keys(localstorageCopyList[k])[0]].url)"><i class="fa-solid fa-up-right-from-square"></i></button>
+                                </td>
+                                <td>
+                                    <button @click="localstorageDelete(k)"><i class="fa-solid fa-trash-can"></i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tbody v-else class="sample2-tbody">
+                            <tr>
+                                <td colspan="5" style="font-size: x-large;">No Data</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
             <section id="news-anchor" class="news wrapper">
                 <h2 class="section-title">
                     <span class="en">NEWS</span>
                     <span class="ja">ニュース</span>
                 </h2>
-
                 <ul class="list">
                     <li v-for="item in news">
                         <div class="date-area">
-                            <time datetime="2021-01-01">{{formattedPublishedAt(item.publishedAt)}}</time>
+                            <time datetime="">{{formattedPublishedAt(item.publishedAt)}}</time>
                             <span>{{item.category.name}}</span>
                         </div>
                         <p>{{item.title}}</p>
@@ -115,33 +222,8 @@
                     </li> -->
                 </ul>
             </section>
-            <section id="sample-anchor" class="sample wrapper">
-                <h2 class="section-title">
-                    <span class="en">sample</span>
-                    <span class="ja">サンプル</span>
-                </h2>
-                <div class="sample-inner">
-                    <div v-if="flag" class="change-btns">
-                        <button v-for="(item, index) in contentsList" @click="changeFunc(index+1)" class="change-btn">{{item.name}}</button>
-                        <!-- <button @click="changeFunc(1)">カウント</button>
-                        <button @click="changeFunc(2)">フルーツ</button>
-                        <button @click="changeFunc(3)">けいさん</button> -->
-                        </div>
-                    <div v-else>
-                        <button v-model="flag" @click="changeFunc(0)" class="reverse-btn">戻る</button>
-                    </div>
-                    <div v-if="contentsList[0].contentsFlag" class="sample-inner inner">
-                        <my-component v-for="i in 3"></my-component>
-                    </div>
-                    <div v-if="contentsList[1].contentsFlag" class="sample-inner inner">
-                        <fruits-data v-for="item in fruitsList" :name1="item.name" :name2="item.price"></fruits-data>
-                    </div>
-                    <div v-if="contentsList[2].contentsFlag" class="sample-inner inner">
-                        <calc-component></calc-component>
-                    </div>
-                </div>
-            </section>
         </main>
+
         <footer class="footer">
             <div class="wrapper">
                 <div class="footer-inner">
@@ -153,16 +235,17 @@
                             テキストテキストテキ
                         </p>
                     <p>000-000-0000</p>
+                    <p><i class="fa-brands fa-square-github fa-2x"></i>&emsp;<i class="fa-brands fa-square-twitter fa-2x"></i>&emsp;<i class="fa-brands fa-square-instagram fa-2x"></i>&emsp;<i class="fa-brands fa-youtube fa-2x"></i>&emsp;<i class="fa-brands fa-twitch fa-2x"></i></p>
                     </div>
                 </div>
-                <p class="copyright">&copy; Web Entertainment Design Inc.</p>
+                <p class="copyright">&copy;&nbsp;anai-no-ojisan Entertainment Inc.</p>
             </div>
         </footer>
 
         <script>
             // microCMS用
             const client = microcms.createClient({
-                serviceDomain: "x4alakbnzu", 
+                serviceDomain: "x4alakbnzu",
                 // 開設時に設定したドメイン名を設定する
                 // https://x4alakbnzu.microcms.io/apis/news/jezmduqkxwy9 ⇒ microcmsの左側の文字列
                 apiKey: '7AhijRlZpGfzL4FEojkcnx8WCkp9b9H74N1Z',
@@ -170,7 +253,7 @@
                 // 左側メニュー内、権限管理の「1個のAPIキー」からコピー
             })
             let MyComponent = {
-                template: '<p class="my-comp">カウンター　<button @click="addOne">追加</button> <button @click="subOne">減少</button> <button @click="addTen">10追加</button> {{count}}</p>',
+                template: '<p class="my-comp">カウンター&emsp;<button @click="addOne">追加</button> <button @click="subOne">減少</button> <button @click="addTen">10追加</button>&emsp;{{count}}</p>',
                 data: function () {
                 return {
                     count: 0
@@ -228,29 +311,50 @@
                     }
                 }
             }
-            new Vue({
+            let noImg = {
+                template: '<hooper :auto-play="true" :infinite-scroll="true" :play-speed="7000" :transition="4000" :hover-pause="false" :wheel-control="false">\
+                    <slide v-for="item in mainvisualList">\
+                        <img :src="item" alt="">\
+                        </slide>\
+                        </hooper>',
+                data: function() {
+                    return {
+                        mainvisualList: ['onsen.jpg','neko.jpg','poke.jpg','women.jpg'],
+                    }
+                },
+                components: {
+                    // カルーセルスライダー用
+                    Hooper: window.Hooper.Hooper,
+                    Slide: window.Hooper.Slide,
+                }
+            }
+
+            let {Slide} = window['vue-burger-menu'];
+            let ap_x = new Vue({
+                el: '#app-x',
+                components: {
+                    'slide' : Slide,
+                }
+            })
+            let ap_y = new Vue({
                 el: '#app',
                 components: {
                     'my-component': MyComponent,
                     'fruits-data': fruitsData,
                     'calc-component': calculator,
-                    // カルーセルスライダー用
-                    Hooper: window.Hooper.Hooper,
-                    Slide: window.Hooper.Slide
+                    'no-img': noImg,
                 },
                 data: {
-                    obj: {index: new Number(), objList: {memo:'', url:'', registrationDate:''}},
-                    // x: '',
-                    hoge: new Object(),
-                    // jjj: new Number(),
-                    // mmm: '',
+                    time: '',
+                    obj: {index: new Number(), objList: {'memo':'', 'url':'', 'registrationDate':''}},
+                    // hoge: new Object(),
                     localstorageCopyList: [], // ローカルストレージの全データ(オブジェクト)を格納
                     keyList: [], // 
                     maxKey: '',
 
                     news: [], // microCMS用
 
-                    mainvisualList: ['Google.jpg','Microsoft.jpg','Yahoo.jpg'],
+                    lll: ['Google.jpg','Microsoft.jpg','Yahoo.jpg'],
                     fruitsList: [
                         {name: 'りんご', price: 120},
                         {name: 'みかん', price: 100},
@@ -259,14 +363,16 @@
                         {name: 'いちご', price: 250},
                     ],
                     contentsList: [
-                        {name: 'カウント', contentsFlag: false},
-                        {name: 'フルーツ', contentsFlag: false},
-                        {name: 'けいさん', contentsFlag: false}
+                        {name: 'カウント', image: 'san.png', contentsFlag: false},
+                        {name: 'フルーツ', image: 'fru.png', contentsFlag: false},
+                        {name: 'けいさん', image: 'den.png', contentsFlag: false}
                     ],
                     // countComp: false,
                     // fruitsComp: false,
                     // calcComp: false,
                     flag: true,
+                    dataFlag: true,
+                    sortFlag: true,
                 },
                 computed: {
                 formattedPublishedAt: function () { /* date-fnsライブラリで日付表示を成型(下記例では一桁月の頭「0」を消している) */
@@ -274,16 +380,19 @@
                             return dateFns.format(new Date(publishedAt), "YYYY-M-D");
                         };
                     },
-                now: function () { /* date-fnsライブラリで日付表示を成型(下記例では一桁月の頭「0」を消している) */
-                            return dateFns.format(new Date(), "YYYY-M-D HH:mm:ss");
-                    },
+                // now: function () { /* date-fnsライブラリで日付表示を成型(下記例では一桁月の頭「0」を消している) */
+                //             return dateFns.format(new Date(), "YYYY-M-D HH:mm:ss");
+                //     },
+                },
+                updated(){
+                    setInterval(this.now, 1000);
                 },
                 mounted() {
                     // microCMS用
                     this.fetchNews();
 
                     // ローカルストレージ内データが全て文字列として入る("",{}等も)
-                    this.hoge = { ...localStorage };
+                    // this.hoge = { ...localStorage };
 
                     // localstorageCopyListを作る処理
                     for(let i = 0; i < localStorage.length; i++) {
@@ -293,11 +402,13 @@
                         // オブジェクトのkeyに設定する変数は"[]"をつける事で可能になる
                         // 要素は文字列なので処理できる様にパースして格納
                         this.localstorageCopyList.push({[key]:JSON.parse(localStorage.getItem(key))});
-                        this.keyList.push(key);
+                        this.keyList.push(parseInt(key));
                     };
                     // Mathメソッドで完全な数値文字列は数値として処理される(戻り値は数値型)
                     this.maxKey = Math.max(...this.keyList);
                     this.localstorageCopyListDownsort();
+                    this.noData();
+                    this.now();
                     // alert(localStorage.getItem(Number('12')));
                     // alert(localStorage.getItem(12));
                     // alert(JSON.stringify(this.hoge));
@@ -333,24 +444,38 @@
                     },
                     localstorageAdd: function() {
                         if (this.obj.objList.memo=='' | this.obj.objList.url=='') {
-                                return alert('kuhaku');
+                                return alert('空白あり');
                         } else {
                             for(let i = 0; i < localStorage.length; i++) {
                                 if (this.obj.objList.memo == JSON.parse(localStorage.getItem(localStorage.key(i))).memo) {
-                                    return alert('tyoufuku');
+                                    return alert('memo重複');
                                 }
                             }
                         }
-                        this.obj.index = this.maxKey + 1;
-                        this.obj.objList.registrationDate = this.now;
+                        if(localStorage.length==0) {
+                            this.obj.index = 1;
+                        } else {
+                            this.obj.index = this.maxKey + 1;
+                        }
+                        this.obj.objList.registrationDate = this.time;
                         localStorage.setItem(this.obj.index, JSON.stringify(this.obj.objList));
-                        this.localstorageCopyList.push({[this.obj.index]:JSON.parse(JSON.stringify(this.obj.objList))});
-                        this.hoge = {...localStorage};
+                        this.localstorageCopyList.push({[this.obj.index]:this.obj.objList});
+                        this.keyList.push(this.obj.index);
+                        this.maxKey = Math.max(...this.keyList);
+                        // this.hoge = {...localStorage};
                         this.obj.objList.memo = '';
                         this.obj.objList.url = '';
+                        this.dataFlag = true;
+                        window.location.reload();
                     },
                     localstorageCopyListDownsort: function() {
-                        this.localstorageCopyList.sort((a,b)=>new Date(b[Object.keys(b)[0]].registrationDate) - new Date(a[Object.keys(a)[0]].registrationDate));
+                        if (this.sortFlag) {
+                            this.localstorageCopyList.sort((a,b)=>new Date(b[Object.keys(b)[0]].registrationDate) - new Date(a[Object.keys(a)[0]].registrationDate));
+                            this.sortFlag = false;
+                        } else {
+                            this.localstorageCopyList.sort((a,b)=>new Date(a[Object.keys(a)[0]].registrationDate) - new Date(b[Object.keys(b)[0]].registrationDate));
+                            this.sortFlag = true;
+                        }
                     },
                     localstorageCopyListUpsort: function() {
                         this.localstorageCopyList.sort((a,b)=>new Date(a[Object.keys(a)[0]].registrationDate) - new Date(b[Object.keys(b)[0]].registrationDate));
@@ -358,23 +483,47 @@
                     localstorageDelete: function(value){
                         localStorage.removeItem(Object.keys(this.localstorageCopyList[value])[0]);
                         this.localstorageCopyList.splice(value,1);
+                        this.noData();
+                        if (this.localstorageCopyList.length==0) {
+                            window.location.reload();
+                        }
                     },
-                    xxx: function() {
-                        return this.x = JSON.parse(localStorage.getItem('aaa'));
+                    jump: function(value) {
+                        window.open(value);
                     },
-                }
+                    noData: function() {
+                        if (localStorage.length == 0) {
+                            this.dataFlag = false;
+                        }
+                    },
+                    now: function() { /* date-fnsライブラリで日付表示を成型(下記例では一桁月の頭「0」を消している) */
+                            this.time = dateFns.format(new Date(), "YYYY-M-D HH:mm:ss");
+                    },
+                },
             })
+            jQuery(function($){
+            // 日本語にデフォルト設定
+                $.extend( $.fn.dataTable.defaults, {
+                    language: {
+                        url: "http://cdn.dataTables.net/plug-ins/9dcbecd42ad/i18n/Japanese.json",
+                    },
+                    ordering:false,
+                    pageLength: 5,
+                    lengthChange: false,
+                    searching: false,
+                });
+                $("#sample2-table").DataTable({});
+            });
+        //     $(function() {
+        //     $('.sample2-tbody').paginathing({//親要素のclassを記述
+        //         perPage: 5,//1ページあたりの表示件数
+        //         prevText:'<i class="fas fa-angle-left"></i>',//1つ前のページへ移動するボタンのテキスト
+        //         nextText:'<i class="fas fa-angle-right"></i>',//1つ次のページへ移動するボタンのテキスト
+        //         activeClass: 'navi-active',//現在のページ番号に任意のclassを付与できます
+        //         firstText: '<i class="fas fa-angle-double-left"></i>', // "最初ページ"に移動するボタンのテキスト
+        //         lastText: '<i class="fas fa-angle-double-right"></i>', // "最後のページ"に移動するボタンのテキスト
+        //     })
+        //   });
         </script>
-        <style>
-            .my-comp {
-                width: 400px;
-                background-color: #ffffe0;
-                border: solid;
-                border-color: darkorange;
-                border-radius: 8px;
-                padding: 8px;
-            }
-            
-        </style>
     </body>
 </html>

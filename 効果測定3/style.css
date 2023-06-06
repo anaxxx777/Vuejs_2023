@@ -23,7 +23,7 @@ li {
 
 .section-title {
     margin-bottom: 40px;
-
+    color: #fff;
 }
 .section-title .en {
     display: block;
@@ -80,6 +80,15 @@ li {
     line-height: 80px; /* heightと同じ値で高さ中央寄せ */
 }
 
+#app-x .bm-burger-button {
+    left: 115px;
+    top: 24px;
+}
+
+#app-x .bm-menu {
+    padding-top: 0;
+}
+
 /* ----------mainvisual-------- */
 .mainvisual {
     margin-bottom: 100px;
@@ -94,50 +103,6 @@ li {
     object-fit: cover; /* 画像の縦横比を維持したまま埋める */
 }
 
-/* -----------news-------------- */
-.news {
-    margin-bottom: 100px;
-    color: #fff;
-}
-
-.news .list {
-    display: flex;
-    justify-content: space-between; /* 両端隙間なし、等間隔 */
-}
-
-.news .list li {
-    width: calc(100%/3); /* 横幅3等分、space-betweenの隙間がなくなる */
-    border-right: solid 1px #fff;
-    padding: 10px 20px;
-}
-
-.news .list li:first-child {
-    padding-left: 0;
-}
-
-.news .list li:last-child {
-    padding-right: 0;
-    border-right: none;
-}
-
-/* .news span, p, time {
-    color: #fff;
-} */
-
-.date-area {
-    margin-bottom: 10px;
-}
-
-.date-area span {
-    font-size: 0.8rem;
-    color: #000;
-    background-color: #fff;
-    display: inline-block;
-    width: 100px;
-    text-align: center;
-    margin-left: 10px;
-}
-
 /* -------------sample------------- */
 .sample {
     margin-bottom: 100px;
@@ -149,6 +114,11 @@ li {
     justify-content: space-evenly;
 }
 
+.change-btns img {
+    width: 10rem;
+    height: 10rem;
+}
+
 .reverse-btn {
     margin-bottom: 50px;
     /* border-style: 1px solid #fff; */
@@ -156,6 +126,7 @@ li {
 
 .change-btns .change-btn {
     border: 2px solid #fff;
+    border-radius: 50%;
 }
 .sample-inner .reverse-btn {
     border: 2px solid #fff;
@@ -206,6 +177,207 @@ a.sample-inner button:hover {
     margin: 0.5em 0;
 }
 
+.my-comp {
+    width: 400px;
+    background-color: #ffffe0;
+    border: solid;
+    border-color: darkorange;
+    border-radius: 8px;
+    padding: 8px;
+}
+
+/* -----------news-------------- */
+.news {
+    margin-bottom: 100px;
+    color: #fff;
+}
+
+.news .list {
+    display: flex;
+    justify-content: space-between; /* 両端隙間なし、等間隔 */
+}
+
+.news .list li {
+    width: calc(100%/3); /* 横幅3等分、space-betweenの隙間がなくなる */
+    border-right: solid 1px #fff;
+    padding: 10px 20px;
+}
+
+.news .list li:first-child {
+    padding-left: 0;
+}
+
+.news .list li:last-child {
+    padding-right: 0;
+    border-right: none;
+}
+
+/* .news span, p, time {
+    color: #fff;
+} */
+
+.date-area {
+    margin-bottom: 10px;
+}
+
+.date-area span {
+    font-size: 0.8rem;
+    color: #000;
+    background-color: #fff;
+    display: inline-block;
+    width: 100px;
+    text-align: center;
+    margin-left: 10px;
+}
+
+/* ------------sample2---------------- */
+.sample2 {
+    margin-bottom: 100px;
+}
+
+.sample2-inner {
+    background-color: white;
+    width: 90%;
+    margin: 0 auto;
+}
+
+/* .sample2-inner table {
+    display: contents;
+} */
+
+.sample2-input-wrapper {
+    width: 80%;
+    margin: 0 auto;
+}
+.sample2-input {
+    border: 1px solid #0099e4;
+    width: 100%;
+    margin-bottom: 0.5rem;
+    line-height: 2.5;
+    border-radius: 0 5px 5px 5px;
+}
+.sample2-span {
+    display: inline-block;
+    width: 3.5rem;
+    text-align: center;
+    background-color: #0099e4;
+    border-radius: 5px 5px 0 0;
+    color: white;
+}
+
+.sava-sort-buttons{
+    text-align: right;
+    padding-top: 0.9rem;
+}
+
+.sample2-tbody {
+    text-align: center;
+}
+
+.sample2-thead {
+    border-bottom: 2px solid #0099e4;
+}
+
+.sample2-thead .id {
+    width: 5%;
+}
+
+.sample2-thead .memo {
+    width: 55%;
+}
+
+.sample2-thead .time {
+    width: 20%;
+}
+
+.sample2-thead .link {
+    width: 10%;
+}
+
+.sample2-thead .del {
+    width: 10%;
+}
+
+.sample2-tbody tr {
+    border-bottom: 1px solid #ccc;
+    /* line-height: 3; */
+}
+
+.sample2-inner button {
+    color: #fff;
+    background-color: #eb6100;
+    /* font-weight: 700; */
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    border-radius: 0.5rem;
+    border: 1px solid #0099e4;
+    width: 6em;
+}
+
+.sample2-inner button:hover,
+a.sample2-inner button:hover {
+  color: #000;
+  background: #f56500;
+}
+
+/* .pagination a {
+    color: #000;
+}
+
+nav.pagination-container ul {
+    border: none;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    filter: drop-shadow(0px 1px 3px #ccc);
+    transition: 0.3s;
+    border-radius: 0px;
+    overflow: hidden;
+}
+.pagination li {
+    margin: 0;
+}
+nav.pagination-container ul li a {
+    width: 100%;
+    height: 100%;
+    display: block;
+    border-radius: 0;
+    padding: 15px 18px 13px;
+    background: #FFF;
+    line-height: 1;
+    border-right: solid 1px #eee;
+}
+li.first {
+    border-radius: 5px 0 0 5px;
+}
+li.last {
+    border-radius: 0 5px 5px 0;
+}
+li.page.navi-active a {
+    background: #ebfcfe;
+    transform: scale(1.2);
+}
+.pagenation_block dl {
+    border-bottom: solid 1px #ddd;
+} */
+
+#sample2-table_wrapper {
+    margin-top: 1rem;
+}
+.dataTables_wrapper .dataTables_info {
+    padding: 0.755em 0 0.755em 0.755em;
+}
+
+tbody.sample2-tbody tr.even {
+    background-color: aliceblue;
+}
+
+@media screen and (max-width: 767px) {
+    
+}
+
 /* ------------footer------------ */
 .footer {
     background-color: #f5f5f5;
@@ -221,4 +393,46 @@ a.sample-inner button:hover {
 
 .footer .copyright {
     font-size: 0.6rem;
+}
+
+/* ----------------@media-------------------- */
+
+@media screen and (min-width: 767px) {
+    #app-x {
+        display: none;
+    }
+    
+}
+
+@media screen and (max-width: 767px) {
+    .float-list {
+        display: none;
+    }
+
+    .change-btns {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .dataTables_wrapper .dataTables_paginate.paging_simple_numbers {
+        margin-top: initial;
+        padding-bottom: 0.5em;
+    }
+
+    .news {
+        margin-bottom: 80px;
+    }
+    .news .list {
+        flex-direction: column;
+    }
+    .news .list li {
+        width: 100%;
+        border-right: none;
+        padding: 10px 0;
+        margin-bottom: 20px;
+    }
+    .news .list li:last-child {
+        margin-bottom: 0;
+    }
 }
