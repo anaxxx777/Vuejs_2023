@@ -265,9 +265,13 @@ a.sample-inner button:hover {
     color: white;
 }
 
-.sava-sort-buttons{
+.sava-sort-buttons {
     text-align: right;
     padding-top: 0.9rem;
+}
+
+.sample2-input-wrapper button {
+    width: 6em;
 }
 
 .sample2-tbody {
@@ -312,7 +316,6 @@ a.sample-inner button:hover {
     transition: all 0.3s;
     border-radius: 0.5rem;
     border: 1px solid #0099e4;
-    width: 6em;
 }
 
 .sample2-inner button:hover,
@@ -401,7 +404,6 @@ tbody.sample2-tbody tr.even {
     #app-x {
         display: none;
     }
-    
 }
 
 @media screen and (max-width: 767px) {
@@ -411,8 +413,12 @@ tbody.sample2-tbody tr.even {
 
     .change-btns {
         display: flex;
-        flex-direction: column;
+        /* flex-direction: column; */
         align-items: center;
+    }
+    .change-btns img {
+        width: 6rem;
+        height: 6rem;
     }
 
     .dataTables_wrapper .dataTables_paginate.paging_simple_numbers {

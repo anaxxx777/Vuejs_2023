@@ -77,11 +77,10 @@
             </div>
             <section id="sample1-anchor" class="sample wrapper">
                 <h2 class="section-title">
-                    <span class="en">sample1</span>
+                    <span class="en">SAMPLE1</span>
                     <span class="ja">サンプル1</span>
                 </h2>
                 <div class="sample-inner">
-                    <!-- <button><img src="neko.jpg" alt=""></button> -->
                     <div v-if="flag" class="change-btns">
                         <button v-for="(item, index) in contentsList" @click="changeFunc(index+1)" class="change-btn"><img :src="item.image" alt=""></button>
                         <!-- <button @click="changeFunc(1)">カウント</button>
@@ -126,6 +125,7 @@
                         </li>
                     </ul> -->
                     {{time}}
+                    <!-- {{JSON.parse(localStorage.getItem('1'))['memo']}} -->
                     <div class="sample2-input-wrapper">
 <!-- 採点箇所１：インプット １０点 -->
                             <span class="sample2-span">memo</span><input class="sample2-input" type="text" v-model="obj.objList.memo">
@@ -133,11 +133,11 @@
                             <div class="sava-sort-buttons">
                                 <button @click="localstorageAdd">
                                     <i class="fas fa-save"></i>
-                                    <span>save</span>
+                                    save
                                 </button>
                                 <button @click="localstorageCopyListDownsort">
                                     <i class="fa-solid fa-sort"></i>
-                                    <span>sort</span>
+                                    sort
                                 </button>
                                 <!-- <v-else button @click="localstorageCopyListUpsort">
                                     <i class="fa-duotone fa-sort-up"></i>
@@ -150,7 +150,7 @@
                             <tr>
                                 <th class="sample2-thead id">id</th>
                                 <th class="sample2-thead memo">memo</th>
-                                <th class="sample2-thead time">jikan</th>
+                                <th class="sample2-thead time">regi_time</th>
                                 <th class="sample2-thead link"></th>
                                 <th class="sample2-thead del"></th>
                             </tr>
@@ -329,6 +329,7 @@
                 }
             }
 
+            // ハンバーガーメニュー用vue
             let {Slide} = window['vue-burger-menu'];
             let ap_x = new Vue({
                 el: '#app-x',
@@ -336,6 +337,7 @@
                     'slide' : Slide,
                 }
             })
+
             let ap_y = new Vue({
                 el: '#app',
                 components: {
@@ -345,16 +347,16 @@
                     'no-img': noImg,
                 },
                 data: {
-                    time: '',
-                    obj: {index: new Number(), objList: {'memo':'', 'url':'', 'registrationDate':''}},
+                    ax: '',
+                    time: '', // 現在時刻用配列
+                    obj: {index: new Number(), objList: {'memo':'', 'url':'', 'registrationDate':''}}, // input内容を格納
                     // hoge: new Object(),
                     localstorageCopyList: [], // ローカルストレージの全データ(オブジェクト)を格納
-                    keyList: [], // 
-                    maxKey: '',
+                    keyList: [], // ローカルストレージの各キーを格納
+                    maxKey: '', // キーを自動で設定する為、最大値を格納
 
                     news: [], // microCMS用
 
-                    lll: ['Google.jpg','Microsoft.jpg','Yahoo.jpg'],
                     fruitsList: [
                         {name: 'りんご', price: 120},
                         {name: 'みかん', price: 100},
@@ -367,12 +369,9 @@
                         {name: 'フルーツ', image: 'fru.png', contentsFlag: false},
                         {name: 'けいさん', image: 'den.png', contentsFlag: false}
                     ],
-                    // countComp: false,
-                    // fruitsComp: false,
-                    // calcComp: false,
-                    flag: true,
-                    dataFlag: true,
-                    sortFlag: true,
+                    flag: true, // sample1切り替え用
+                    dataFlag: true, // sample2 nodata表示用
+                    sortFlag: true, // sample2 sort昇順降順切り替え用
                 },
                 computed: {
                 formattedPublishedAt: function () { /* date-fnsライブラリで日付表示を成型(下記例では一桁月の頭「0」を消している) */
@@ -380,11 +379,11 @@
                             return dateFns.format(new Date(publishedAt), "YYYY-M-D");
                         };
                     },
-                // now: function () { /* date-fnsライブラリで日付表示を成型(下記例では一桁月の頭「0」を消している) */
+                // now: function () {
                 //             return dateFns.format(new Date(), "YYYY-M-D HH:mm:ss");
                 //     },
                 },
-                updated(){
+                updated(){ // ライフサイクル要検証
                     setInterval(this.now, 1000);
                 },
                 mounted() {
@@ -413,6 +412,8 @@
                     // alert(localStorage.getItem(12));
                     // alert(JSON.stringify(this.hoge));
                     // alert(JSON.stringify(this.localstorageCopyList));
+                    // ▼▼▼ローカルストレージからプロパティ取得
+                    // alert(JSON.parse(localStorage.getItem('1'))['memo']);
                 },
                 methods: {
                     // microCMSに登録したニュース一覧を取得する処理
@@ -466,7 +467,7 @@
                         this.obj.objList.memo = '';
                         this.obj.objList.url = '';
                         this.dataFlag = true;
-                        window.location.reload();
+                        window.location.reload(); //【改善希望】データテーブルにリアルタイムで表示されない為リロード
                     },
                     localstorageCopyListDownsort: function() {
                         if (this.sortFlag) {
@@ -485,7 +486,7 @@
                         this.localstorageCopyList.splice(value,1);
                         this.noData();
                         if (this.localstorageCopyList.length==0) {
-                            window.location.reload();
+                            window.location.reload(); //【改善希望】データテーブルにリアルタイムで表示されない為リロード
                         }
                     },
                     jump: function(value) {
@@ -496,18 +497,19 @@
                             this.dataFlag = false;
                         }
                     },
-                    now: function() { /* date-fnsライブラリで日付表示を成型(下記例では一桁月の頭「0」を消している) */
+                    now: function() { // 現在時刻取得(datefnsでフォーマットされた文字列)
                             this.time = dateFns.format(new Date(), "YYYY-M-D HH:mm:ss");
                     },
                 },
             })
+            // データテーブル用
             jQuery(function($){
-            // 日本語にデフォルト設定
+                // 日本語にデフォルト設定
                 $.extend( $.fn.dataTable.defaults, {
                     language: {
                         url: "http://cdn.dataTables.net/plug-ins/9dcbecd42ad/i18n/Japanese.json",
                     },
-                    ordering:false,
+                    ordering: false,
                     pageLength: 5,
                     lengthChange: false,
                     searching: false,
